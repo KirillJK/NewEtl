@@ -60,6 +60,8 @@ namespace SyncManager.FlowClockwork
         {
             IsExcluded = false;
             IsSkipped = false;
+            //_commitExceptions = new Dictionary<string, Exception>();
+            _exceptions = new Dictionary<string, Exception>();
         }
     }
 }
