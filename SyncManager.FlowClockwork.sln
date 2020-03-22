@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.Etl.Cleanup", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.FlowClockwork.Common", "SyncManager.FlowClockwork.Common\SyncManager.FlowClockwork.Common.csproj", "{FD1C81F9-3730-4C23-A96B-3A9B0D06B9A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.SyncManager.Cleanup", "Tests.SyncManager.Cleanup\Tests.SyncManager.Cleanup.csproj", "{F69B3520-81A8-4B4A-8415-171D08332BBA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{FD1C81F9-3730-4C23-A96B-3A9B0D06B9A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD1C81F9-3730-4C23-A96B-3A9B0D06B9A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD1C81F9-3730-4C23-A96B-3A9B0D06B9A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F69B3520-81A8-4B4A-8415-171D08332BBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F69B3520-81A8-4B4A-8415-171D08332BBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F69B3520-81A8-4B4A-8415-171D08332BBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F69B3520-81A8-4B4A-8415-171D08332BBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

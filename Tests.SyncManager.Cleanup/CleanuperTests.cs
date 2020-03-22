@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SyncManager.Etl.Cleanup
+namespace Tests.SyncManager.Cleanup
 {
-    public class Class1
+    public class CleanuperTests
     {
     }
 }
