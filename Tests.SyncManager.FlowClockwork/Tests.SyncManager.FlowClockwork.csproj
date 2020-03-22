@@ -59,6 +59,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SyncManager.FlowClockwork.Common\SyncManager.FlowClockwork.Common.csproj">
+      <Project>{FD1C81F9-3730-4C23-A96B-3A9B0D06B9A7}</Project>
+      <Name>SyncManager.FlowClockwork.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SyncManager.FlowClockwork\SyncManager.FlowClockwork.csproj">
       <Project>{6798ADC8-209E-45D6-99A1-8903A73974CA}</Project>
       <Name>SyncManager.FlowClockwork</Name>
