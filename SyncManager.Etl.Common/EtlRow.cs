@@ -10,5 +10,6 @@ namespace SyncManager.Etl.Common
     {
         public Dictionary<string, object> Source { get; set; } = new Dictionary<string, object>();
         public Dictionary<string, object> Destination { get; set; } = new Dictionary<string, object>();
+        public bool IsDeleted { get; set; }
     }
 }

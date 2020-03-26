@@ -33,6 +33,7 @@ namespace SyncManager.Etl.Cleanup
             foreach (var cleanupRule in cleanupRuleList.Where(a => a.IsEnabled))
                 Apply(cleanupRule, etlRow, result);
             Post(etlRow, result);
+            etlRow.IsDeleted = result.IsDeleted;
         }
 
         private void Apply(CleanupRule rule, EtlRow etlRow, SingleCleanupRuleResult result)
@@ -74,21 +75,6 @@ namespace SyncManager.Etl.Cleanup
                         _previousNonEmptyValue = stringValue;
                 }
                     break;
-                case CleanupAction.StartLoad:
-                {
-                    _frameState.StartLoad();
-                }
-                    break;
-                case CleanupAction.StartLoadExclude:
-                {
-                    _frameState.StartLoadExclude();
-                }
-                    break;
-                case CleanupAction.StopLoad:
-                {
-                    _frameState.StopLoad();
-                }
-                    break;
             }
         }
 
@@ -112,7 +98,22 @@ namespace SyncManager.Etl.Cleanup
                     result.IsDeleted = true;
                 }
                     break;
-            }
+                case CleanupAction.StartLoad:
+                {
+                    _frameState.StartLoad();
+                }
+                    break;
+                case CleanupAction.StartLoadExclude:
+                {
+                    _frameState.StartLoadExclude();
+                }
+                    break;
+                case CleanupAction.StopLoad:
+                {
+                    _frameState.StopLoad();
+                }
+                    break;
+                }
         }
 
 
@@ -139,6 +140,10 @@ namespace SyncManager.Etl.Cleanup
                 case CleanupCondition.Regex:
                 {
                     return Regex.IsMatch(stringValue, rule.ConditionArgument);
+                }
+                case CleanupCondition.Contains:
+                {
+                    return stringValue.Contains(rule.ConditionArgument);
                 }
                 default:
                     return false;
