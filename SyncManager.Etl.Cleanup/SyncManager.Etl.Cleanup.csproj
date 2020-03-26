@@ -40,11 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cleanuper.cs" />
     <Compile Include="CleanupRule.cs" />
     <Compile Include="CleanupAction.cs" />
     <Compile Include="CleanupCondition.cs" />
+    <Compile Include="FrameState.cs" />
     <Compile Include="ICleanuper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SingleCleanupRuleResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SyncManager.Etl.Common\SyncManager.Etl.Common.csproj">
