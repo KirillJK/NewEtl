@@ -19,8 +19,8 @@ namespace SyncManager.Etl.Cleanup
         public string ConditionArgument { get; set; }
         [XmlAttribute("Action")]
         public CleanupAction Action { get; set; }
-        [XmlAttribute("Value")]
-        public string Value { get; set; }
+        //[XmlAttribute("Value")]
+        //public string Value { get; set; }
         [XmlAttribute("Expression")]
         public string Expression { get; set; }
         [XmlAttribute]

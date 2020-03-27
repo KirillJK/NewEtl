@@ -32,7 +32,7 @@ namespace Tests.SyncManager.Cleanup
 
         public static string ToCsv(Dictionary<string, object> item)
         {
-            return item.Values.Select(a=>a.ToString()).Aggregate((a, b) => a + "," + b);
+            return item.Values.Select(a=>a!=null?a.ToString():"").Aggregate((a, b) => a + "," + b);
         }
     }
 }

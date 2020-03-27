@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using SyncManager.Etl.Common;
 
@@ -15,8 +17,9 @@ namespace SyncManager.Etl.Cleanup
         private bool _isInitialized;
         private Dictionary<string, object> _previousNonEmptyValue = new Dictionary<string, object>();
         private Dictionary<string, string> _matched = new Dictionary<string, string>(); 
-        public Cleanuper(List<CleanupRule> rules, IExpressionEvaluator _expressionEvaluator)
+        public Cleanuper(List<CleanupRule> rules, IExpressionEvaluator expressionEvaluator)
         {
+            _expressionEvaluator = expressionEvaluator;
             foreach (var cleanupRule in rules)
             {
                 if (!_cleanupRulesIndex.ContainsKey(cleanupRule.ColumnName))
@@ -40,11 +43,20 @@ namespace SyncManager.Etl.Cleanup
         {
             var capturedValue = etlRow.Source[rule.ColumnName];
             var stringValue = capturedValue != null ? capturedValue.ToString() : "";
-            if (CheckCondition(rule, etlRow, capturedValue, stringValue))
+            Lazy<string> evaluation = new Lazy<string>(() =>
             {
-                ApplyConditionalCleanup(rule, etlRow, stringValue, result);
+             
+                var    evaluatedResult = _expressionEvaluator.Evaluate(rule.Expression).ToString();
+                
+                
+                return evaluatedResult;
+            });
+            EvaluatedValue evaluatedValue = new EvaluatedValue(evaluation);
+            if (CheckCondition(rule, etlRow, capturedValue, stringValue, evaluatedValue))
+            {
+                ApplyConditionalCleanup(rule, etlRow, stringValue, result, evaluatedValue);
             }
-            ApplyNonConditionalCleanup(rule, etlRow, stringValue, result);
+            ApplyNonConditionalCleanup(rule, etlRow, stringValue, result, evaluatedValue);
 
         }
 
@@ -74,7 +86,7 @@ namespace SyncManager.Etl.Cleanup
         }
 
         private void ApplyNonConditionalCleanup(CleanupRule rule, EtlRow etlRow, string stringValue,
-            SingleCleanupRuleResult result)
+            SingleCleanupRuleResult result, EvaluatedValue evaluation)
         {
             switch (rule.Action)
             {
@@ -95,13 +107,14 @@ namespace SyncManager.Etl.Cleanup
         }
 
         private void ApplyConditionalCleanup(CleanupRule rule, EtlRow etlRow, string stringValue,
-            SingleCleanupRuleResult result)
+            SingleCleanupRuleResult result, EvaluatedValue evaluation)
         {
+            
             switch (rule.Action)
             {
                 case CleanupAction.Replace:
                 {
-                    etlRow.Source[rule.ColumnName] = rule.Value;
+                    etlRow.Source[rule.ColumnName] = evaluation.Value;
                 }
                     break;
                 case CleanupAction.ReplaceMatched:
@@ -109,11 +122,11 @@ namespace SyncManager.Etl.Cleanup
                     if (_matched.ContainsKey(rule.ColumnName) && !string.IsNullOrEmpty(_matched[rule.ColumnName]))
                         if (string.IsNullOrEmpty(stringValue))
                         {
-                            etlRow.Source[rule.ColumnName] = rule.Value;
-                        }
+                            etlRow.Source[rule.ColumnName] = evaluation.Value;
+                            }
                         else
                         {
-                            etlRow.Source[rule.ColumnName] = stringValue.Replace(_matched[rule.ColumnName], rule.Value);
+                            etlRow.Source[rule.ColumnName] = stringValue.Replace(_matched[rule.ColumnName], evaluation.Value);
                         }
                     
                 }
@@ -142,13 +155,15 @@ namespace SyncManager.Etl.Cleanup
         }
 
 
-        private bool CheckCondition(CleanupRule rule, EtlRow etlRow, object capturedValue, string stringValue)
+        private bool CheckCondition(CleanupRule rule, EtlRow etlRow, object capturedValue, string stringValue,
+            EvaluatedValue evaluation)
         {
+
             switch (rule.Condition)
             {
                 case CleanupCondition.Empty:
                 {
-                    _matched[rule.ColumnName] = rule.Value;
+                    _matched[rule.ColumnName] = evaluation.Value;
                         return capturedValue == null || capturedValue as string == "";
                 }
                 case CleanupCondition.StartsWith:
@@ -188,6 +203,29 @@ namespace SyncManager.Etl.Cleanup
         }
     }
 }
+
+public class EvaluatedValue
+{
+    private Lazy<string> _lazyGetter;
+    private string _value;
+    public EvaluatedValue(Lazy<string> lazyGetter)
+    {
+        _lazyGetter = lazyGetter;
+    }
+
+    public string Value
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(_value))
+            {
+                _value = _lazyGetter.Value;
+            }
+            return _value;
+        }
+    }
+}
+
 
 public interface IExpressionEvaluator
 {
