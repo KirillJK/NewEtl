@@ -49,6 +49,7 @@
     <Compile Include="CleanuperTests.cs" />
     <Compile Include="CsvParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestExpressionEvaluator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SyncManager.Etl.Cleanup\SyncManager.Etl.Cleanup.csproj">
