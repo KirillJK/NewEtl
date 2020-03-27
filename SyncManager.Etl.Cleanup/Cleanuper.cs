@@ -11,11 +11,11 @@ namespace SyncManager.Etl.Cleanup
             new Dictionary<string, List<CleanupRule>>();
 
         private readonly FrameState _frameState = new FrameState();
-
+        private IExpressionEvaluator _expressionEvaluator;
         private bool _isInitialized;
         private Dictionary<string, object> _previousNonEmptyValue = new Dictionary<string, object>();
         private Dictionary<string, string> _matched = new Dictionary<string, string>(); 
-        public Cleanuper(List<CleanupRule> rules)
+        public Cleanuper(List<CleanupRule> rules, IExpressionEvaluator _expressionEvaluator)
         {
             foreach (var cleanupRule in rules)
             {
@@ -187,4 +187,10 @@ namespace SyncManager.Etl.Cleanup
             }
         }
     }
+}
+
+public interface IExpressionEvaluator
+{
+    void EnrichContext(string key, object value);
+    object Evaluate(string expression);
 }

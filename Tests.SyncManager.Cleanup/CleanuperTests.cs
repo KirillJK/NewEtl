@@ -16,10 +16,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EmptyRulesAndNothingChanged()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 //new CleanupRule(){Action = CleanupAction.Remove, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "4"}
-            });
+            }, expressionEvaluator);
 
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
@@ -50,10 +51,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void OneRuleRemoveSecondRow()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.Remove, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "4"}
-            });
+            }, expressionEvaluator);
 
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
@@ -84,10 +86,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void OneRuleReplace()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.Replace, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "444", Value = "AAA"}
-            });
+            }, expressionEvaluator);
 
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
@@ -116,10 +119,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void OneRuleReplaceMatched()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.ReplaceMatched, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Contains, ConditionArgument = "44", Value = "AAA"}
-            });
+            }, expressionEvaluator);
 
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
@@ -148,10 +152,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void OneRuleReplaceMatchedFull()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.Replace, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Contains, ConditionArgument = "44", Value = "AAA"}
-            });
+            }, expressionEvaluator);
 
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
@@ -180,10 +185,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EmptyPlusReplace()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.Replace, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -214,10 +220,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void NullPlusReplace()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.Replace, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -249,10 +256,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EqualPlusReplace()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.Replace, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "4", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -283,10 +291,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void StartsWithPlusReplace()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.Replace, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.StartsWith, ConditionArgument = "4BBB", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -317,10 +326,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EndsWithPlusReplace()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.Replace, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.EndsWith, ConditionArgument = "BOBOR", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -351,10 +361,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void RegexPlusReplace()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.Replace, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Regex, ConditionArgument = "(?<=This is)(.*)(?=sentence)", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -387,10 +398,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EmptyPlusReplaceMatched()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.ReplaceMatched, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -421,10 +433,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void NullPlusReplaceMatched()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.ReplaceMatched, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -456,10 +469,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EqualPlusReplaceMatched()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.ReplaceMatched, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "4", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -491,10 +505,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void StartsWithPlusReplaceMatched()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.ReplaceMatched, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.StartsWith, ConditionArgument = "4BBB", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -525,10 +540,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EndsWithPlusReplaceMatched()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.ReplaceMatched, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.EndsWith, ConditionArgument = "BOBOR", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -560,10 +576,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void RegexPlusReplaceMatched()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.ReplaceMatched, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Regex, ConditionArgument = "(?<=This is)(.*)(?=sentence)", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -595,10 +612,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EmptyPlusRemove()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.Remove, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -629,10 +647,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EqualPlusRemove()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.Remove, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "4", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -664,10 +683,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void StartsWithPlusRemove()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.Remove, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.StartsWith, ConditionArgument = "4A", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -698,10 +718,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EndsWithPlusRemove()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.Remove, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.EndsWith, ConditionArgument = "AAB", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -733,10 +754,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void RegexPlusRemove()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.Remove, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Regex, ConditionArgument = "(?<=This is)(.*)(?=sentence)", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -767,11 +789,12 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void GetPreviousTest()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col2", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = ""},
                 new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = ""}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -802,11 +825,12 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EmptyPlusGetPrevious()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col2", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = ""},
                 new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "3", Value = ""}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -836,11 +860,12 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EqualsPlusGetPrevious()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col2", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "", Value = ""},
                 new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "3", Value = ""}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -870,11 +895,12 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void StartsWithPlusGetPrevious()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col2", IsEnabled = true, Condition = CleanupCondition.StartsWith, ConditionArgument = "", Value = ""},
                 new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.StartsWith, ConditionArgument = "3", Value = ""}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -904,11 +930,12 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EndsWithPlusGetPrevious()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col2", IsEnabled = true, Condition = CleanupCondition.EndsWith, ConditionArgument = "", Value = ""},
                 new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.EndsWith, ConditionArgument = "3", Value = ""}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -939,11 +966,12 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void RegexPlusGetPrevious()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col2", IsEnabled = true, Condition = CleanupCondition.Regex, ConditionArgument = "", Value = ""},
                 new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Regex, ConditionArgument = "3", Value = ""}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -972,10 +1000,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EmptyPlusStartLoad()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StartLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = ""},
-            });
+            },expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1005,10 +1034,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EqualsPlusStartLoad()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StartLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "6", Value = ""},
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1038,10 +1068,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void StartsWithPlusStartLoad()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StartLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.StartsWith, ConditionArgument = "6", Value = ""},
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1071,10 +1102,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EndsWithPlusStartLoad()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StartLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.EndsWith, ConditionArgument = "a", Value = ""},
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1105,10 +1137,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void RegexPlusStartLoad()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StartLoad, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Regex, ConditionArgument = "(?<=This is)(.*)(?=sentence)", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1141,10 +1174,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EmptyPlusStopLoad()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StopLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = ""},
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1174,10 +1208,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EqualPlusStopLoad()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StopLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "6", Value = ""},
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1207,10 +1242,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void StartsWithPlusStopLoad()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StopLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.StartsWith, ConditionArgument = "6", Value = ""},
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1240,10 +1276,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EndsWithPlusStopLoad()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StopLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.EndsWith, ConditionArgument = "A", Value = ""},
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1275,10 +1312,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void RegexPlusStopLoad()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StopLoad, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Regex, ConditionArgument = "(?<=This is)(.*)(?=sentence)", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1310,10 +1348,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EmptyPlusStartLoadExclude()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StartLoadExclude, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = ""},
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1343,10 +1382,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EqualsPlusStartLoadExclude()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StartLoadExclude, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "6", Value = ""},
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1376,10 +1416,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void StartsWithPlusStartLoadExclude()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StartLoadExclude, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.StartsWith, ConditionArgument = "6", Value = ""},
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1409,10 +1450,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void EndsWithPlusStartLoadExclude()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StartLoadExclude, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.EndsWith, ConditionArgument = "a", Value = ""},
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1443,10 +1485,11 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void RegexPlusStartLoadExclude()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StartLoadExclude, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Regex, ConditionArgument = "(?<=This is)(.*)(?=sentence)", Value = "AAA"}
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1477,11 +1520,12 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void StartLoadAndStopLoadForTheSingleColumn()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StartLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "3", Value = ""},
                 new CleanupRule(){Action = CleanupAction.StopLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = ""},
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1512,11 +1556,12 @@ namespace Tests.SyncManager.Cleanup
         [Test]
         public void StartLoadAndStopLoadForTheSingleColumnOneAndSingleRow()
         {
+            var expressionEvaluator = GetMocked();
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
                 new CleanupRule(){Action = CleanupAction.StartLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "3", Value = ""},
                 new CleanupRule(){Action = CleanupAction.StopLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "3", Value = ""},
-            });
+            }, expressionEvaluator);
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
             var row1 = "1,2,3";
@@ -1543,5 +1588,25 @@ namespace Tests.SyncManager.Cleanup
             Assert.AreEqual("7,8,9", CsvParser.ToCsv(rows[2].Source));
         }
 
+
+        private static IExpressionEvaluator GetMocked()
+        {
+            return new TestExpressionEvaluator();
+        }
+
+        public class TestExpressionEvaluator: IExpressionEvaluator
+        {
+            public Dictionary<string, object> Variables { get; set; } = new Dictionary<string, object>();
+            public Dictionary<string, object> Evaluations { get; set; } = new Dictionary<string, object>();
+            public void EnrichContext(string key, object value)
+            {
+                Variables[key] = value;
+            }
+
+            public object Evaluate(string expression)
+            {
+                return Evaluations[expression];
+            }
+        }
     }
 }
