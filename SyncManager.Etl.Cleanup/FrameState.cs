@@ -4,6 +4,7 @@
     {
         private bool _isCaptured;
         private bool _isLocked = true;
+        private bool? _oneTimeLocked = null;
         public void StartLoad()
         {
             _isLocked = false;
@@ -17,6 +18,11 @@
         public bool IsLocked()
         {
             if (!_isCaptured) return false;
+            if (_oneTimeLocked.HasValue && _oneTimeLocked.Value)
+            {
+                _oneTimeLocked = false;
+                return true;
+            }
             return _isLocked;
         }
 
@@ -32,12 +38,10 @@
 
         public void StartLoadExclude()
         {
-
+            if (!_oneTimeLocked.HasValue)
+            _oneTimeLocked = true;
+            _isLocked = false;
         }
 
-        public bool Ignore()
-        {
-            return false;
-        }
     }
 }

@@ -51,11 +51,11 @@ namespace SyncManager.Etl.Cleanup
         private void TryToInit()
         {
             if (_isInitialized) return;
-            var values = _cleanupRulesIndex.SelectMany(a => a.Value).Where(a=>a.IsEnabled);
+            var values = _cleanupRulesIndex.SelectMany(a => a.Value).Where(a=>a.IsEnabled).ToList();
             if (values
-                .Any(a=>(a.Action == CleanupAction.StartLoad|| a.Action == CleanupAction.StopLoad)))
+                .Any(a=>(a.Action == CleanupAction.StartLoad|| a.Action == CleanupAction.StartLoadExclude || a.Action == CleanupAction.StopLoad)))
             {
-                if (values.All(a => a.Action != CleanupAction.StartLoad))
+                if (values.All(a => a.Action != CleanupAction.StartLoad && a.Action != CleanupAction.StartLoadExclude))
                 {
                     _frameState.MakeOpenedByDefault();
                 }
