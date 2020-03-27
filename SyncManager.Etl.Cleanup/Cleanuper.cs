@@ -43,6 +43,7 @@ namespace SyncManager.Etl.Cleanup
         {
             var capturedValue = etlRow.Source[rule.ColumnName];
             var stringValue = capturedValue != null ? capturedValue.ToString() : "";
+            EnrichContextByRow(etlRow);
             Lazy<string> evaluation = new Lazy<string>(() =>
             {
              
@@ -58,6 +59,11 @@ namespace SyncManager.Etl.Cleanup
             }
             ApplyNonConditionalCleanup(rule, etlRow, stringValue, result, evaluatedValue);
 
+        }
+
+        private void EnrichContextByRow(EtlRow etlRow)
+        {
+            _expressionEvaluator.EnrichContext("source", etlRow.Source);
         }
 
         private void TryToInit()
@@ -197,6 +203,11 @@ namespace SyncManager.Etl.Cleanup
                     _matched[rule.ColumnName] = rule.ConditionArgument;
                         return stringValue.Contains(rule.ConditionArgument);
                 }
+                case CleanupCondition.Expression:
+                {
+                    _matched[rule.ColumnName] = stringValue;
+                    return (bool)_expressionEvaluator.Evaluate(rule.ConditionArgument);
+                    }
                 default:
                     return false;
             }

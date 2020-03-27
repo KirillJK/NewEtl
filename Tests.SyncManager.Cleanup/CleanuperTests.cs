@@ -1596,8 +1596,18 @@ namespace Tests.SyncManager.Cleanup
 
         public class TestExpressionEvaluator: IExpressionEvaluator
         {
+            public TestExpressionEvaluator()
+            {
+                Evaluations["source['Col1'] == '4'"] = ()=>
+                {
+                    var source = (Variables["source"] as Dictionary<string, object>);
+                    var result =  source["Col1"] as string == "4";
+                    return result;
+                };
+            }
+
             public Dictionary<string, object> Variables { get; set; } = new Dictionary<string, object>();
-            public Dictionary<string, object> Evaluations { get; set; } = new Dictionary<string, object>();
+            public Dictionary<string, Func<object>> Evaluations { get; set; } = new Dictionary<string, Func<object>>();
             public void EnrichContext(string key, object value)
             {
                 Variables[key] = value;
@@ -1610,8 +1620,261 @@ namespace Tests.SyncManager.Cleanup
                 {
                     return expression.Replace("'", "");
                 }
-                return Evaluations[expression];
+                var result =  Evaluations[expression]();
+                return result;
             }
         }
+
+        [Test]
+        public void ExpressionPlusReplace()
+        {
+            var expressionEvaluator = GetMocked();
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.Replace, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Expression, ConditionArgument = "source['Col1'] == '4'", Expression =  "'AAA'"}
+            }, expressionEvaluator);
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,5,6";
+            var row3 = "7,8,9";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsFalse(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual(row1, CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("AAA,5,6", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual(row3, CsvParser.ToCsv(rows[2].Source));
+        }
+
+        [Test] //Works as well as Replace
+        public void ExpressionPlusReplaceMatched()
+        {
+            var expressionEvaluator = GetMocked();
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.ReplaceMatched, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Expression, ConditionArgument = "source['Col1'] == '4'", Expression =  "'AAA'"}
+            }, expressionEvaluator);
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,5,6";
+            var row3 = "7,8,9";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsFalse(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual(row1, CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("AAA,5,6", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual(row3, CsvParser.ToCsv(rows[2].Source));
+        }
+
+        [Test] 
+        public void ExpressionPlusStartLoad()
+        {
+            var expressionEvaluator = GetMocked();
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.StartLoad, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Expression, ConditionArgument = "source['Col1'] == '4'", Expression =  "'AAA'"}
+            }, expressionEvaluator);
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,5,6";
+            var row3 = "7,8,9";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+
+            Assert.IsTrue(rows[0].IsDeleted);
+            Assert.IsFalse(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual(row1, CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual(row2, CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual(row3, CsvParser.ToCsv(rows[2].Source));
+        }
+
+
+        [Test]
+        public void ExpressionPlusStartLoadExclude()
+        {
+            var expressionEvaluator = GetMocked();
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.StartLoadExclude, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Expression, ConditionArgument = "source['Col1'] == '4'", Expression =  "'AAA'"}
+            }, expressionEvaluator);
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,5,6";
+            var row3 = "7,8,9";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+
+            Assert.IsTrue(rows[0].IsDeleted);
+            Assert.IsTrue(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual(row1, CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual(row2, CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual(row3, CsvParser.ToCsv(rows[2].Source));
+        }
+
+
+        [Test]
+        public void ExpressionPlusStopLoad()
+        {
+            var expressionEvaluator = GetMocked();
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.StopLoad, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Expression, ConditionArgument = "source['Col1'] == '4'", Expression =  "'AAA'"}
+            }, expressionEvaluator);
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,5,6";
+            var row3 = "7,8,9";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsTrue(rows[1].IsDeleted);
+            Assert.IsTrue(rows[2].IsDeleted);
+
+            Assert.AreEqual(row1, CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual(row2, CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual(row3, CsvParser.ToCsv(rows[2].Source));
+        }
+
+        [Test]
+        public void ExpressionPlusGetPrevious()
+        {
+            var expressionEvaluator = GetMocked();
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Expression, ConditionArgument = "source['Col1'] == '4'", Expression =  "'AAA'"}
+            }, expressionEvaluator);
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,5,";
+            var row3 = "7,8,";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsFalse(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual(row1, CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("4,5,3", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual("7,8,3", CsvParser.ToCsv(rows[2].Source));
+        }
+
+
+        [Test]
+        public void ExpressionPlusRemove()
+        {
+            var expressionEvaluator = GetMocked();
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.Remove, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Expression, ConditionArgument = "source['Col1'] == '4'", Expression =  "'AAA'"}
+            }, expressionEvaluator);
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,5,6";
+            var row3 = "7,8,9";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsTrue(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual(row1, CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual(row2, CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual(row3, CsvParser.ToCsv(rows[2].Source));
+        }
+
+
+
+
     }
 }
