@@ -562,7 +562,7 @@ namespace Tests.SyncManager.Cleanup
         {
             Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
             {
-                new CleanupRule(){Action = CleanupAction.Replace, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Regex, ConditionArgument = "(?<=This is)(.*)(?=sentence)", Value = "AAA"}
+                new CleanupRule(){Action = CleanupAction.ReplaceMatched, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Regex, ConditionArgument = "(?<=This is)(.*)(?=sentence)", Value = "AAA"}
             });
             List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             var header = "Col1,Col2,Col3";
@@ -587,7 +587,7 @@ namespace Tests.SyncManager.Cleanup
             Assert.IsFalse(rows[2].IsDeleted);
 
             Assert.AreEqual(row1, CsvParser.ToCsv(rows[0].Source));
-            Assert.AreEqual("This isAAA sentence,5,6,5,6", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual("This isAAAsentence,5,6", CsvParser.ToCsv(rows[1].Source));
             Assert.AreEqual(row3, CsvParser.ToCsv(rows[2].Source));
         }
 
@@ -763,6 +763,550 @@ namespace Tests.SyncManager.Cleanup
             Assert.AreEqual("This is just a simple sentence,5,6", CsvParser.ToCsv(rows[1].Source));
             Assert.AreEqual(row3, CsvParser.ToCsv(rows[2].Source));
         }
+
+        [Test]
+        public void GetPreviousTest()
+        {
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col2", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = ""},
+                new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = ""}
+            });
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,,6";
+            var row3 = "7,8,";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsFalse(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual("1,2,3", CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("4,2,6", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual("7,8,6", CsvParser.ToCsv(rows[2].Source));
+        }
+
+
+        [Test]
+        public void EmptyPlusGetPrevious()
+        {
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col2", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = ""},
+                new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "3", Value = ""}
+            });
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,,6";
+            var row3 = "7,8,";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsFalse(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual("1,2,3", CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("4,2,6", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual("7,8,6", CsvParser.ToCsv(rows[2].Source));
+        }
+
+        [Test]
+        public void EqualsPlusGetPrevious()
+        {
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col2", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "", Value = ""},
+                new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "3", Value = ""}
+            });
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,,6";
+            var row3 = "7,8,";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsFalse(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual("1,2,3", CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("4,2,6", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual("7,8,6", CsvParser.ToCsv(rows[2].Source));
+        }
+
+        [Test]
+        public void StartsWithPlusGetPrevious()
+        {
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col2", IsEnabled = true, Condition = CleanupCondition.StartsWith, ConditionArgument = "", Value = ""},
+                new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.StartsWith, ConditionArgument = "3", Value = ""}
+            });
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,,6";
+            var row3 = "7,8,";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsFalse(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual("1,2,3", CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("4,2,6", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual("7,8,6", CsvParser.ToCsv(rows[2].Source));
+        }
+
+        [Test]
+        public void EndsWithPlusGetPrevious()
+        {
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col2", IsEnabled = true, Condition = CleanupCondition.EndsWith, ConditionArgument = "", Value = ""},
+                new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.EndsWith, ConditionArgument = "3", Value = ""}
+            });
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,,6";
+            var row3 = "7,8,";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsFalse(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual("1,2,3", CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("4,2,6", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual("7,8,6", CsvParser.ToCsv(rows[2].Source));
+        }
+
+
+        [Test]
+        public void RegexPlusGetPrevious()
+        {
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col2", IsEnabled = true, Condition = CleanupCondition.Regex, ConditionArgument = "", Value = ""},
+                new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Regex, ConditionArgument = "3", Value = ""}
+            });
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,,6";
+            var row3 = "7,8,";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsFalse(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual("1,2,3", CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("4,2,6", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual("7,8,6", CsvParser.ToCsv(rows[2].Source));
+        }
+        [Test]
+        public void EmptyPlusStartLoad()
+        {
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.StartLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = ""},
+            });
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,5,";
+            var row3 = "7,8,9";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+            Assert.IsTrue(rows[0].IsDeleted);
+            Assert.IsFalse(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual("1,2,3", CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("4,5,", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual("7,8,9", CsvParser.ToCsv(rows[2].Source));
+        }
+
+        [Test]
+        public void EqualsPlusStartLoad()
+        {
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.StartLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "6", Value = ""},
+            });
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,5,6";
+            var row3 = "7,8,";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+            Assert.IsTrue(rows[0].IsDeleted);
+            Assert.IsFalse(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual("1,2,3", CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("4,5,6", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual("7,8,", CsvParser.ToCsv(rows[2].Source));
+        }
+
+        [Test]
+        public void StartsWithPlusStartLoad()
+        {
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.StartLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.StartsWith, ConditionArgument = "6", Value = ""},
+            });
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,5,6a";
+            var row3 = "7,8,";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+            Assert.IsTrue(rows[0].IsDeleted);
+            Assert.IsFalse(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual("1,2,3", CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("4,5,6a", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual("7,8,", CsvParser.ToCsv(rows[2].Source));
+        }
+
+        [Test]
+        public void EndsWithPlusStartLoad()
+        {
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.StartLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.EndsWith, ConditionArgument = "a", Value = ""},
+            });
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,5,6a";
+            var row3 = "7,8,";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+            Assert.IsTrue(rows[0].IsDeleted);
+            Assert.IsFalse(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual("1,2,3", CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("4,5,6a", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual("7,8,", CsvParser.ToCsv(rows[2].Source));
+        }
+
+
+        [Test]
+        public void RegexPlusStartLoad()
+        {
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.StartLoad, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Regex, ConditionArgument = "(?<=This is)(.*)(?=sentence)", Value = "AAA"}
+            });
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "This is just a simple sentence,5,6";
+            var row3 = "7,8,9";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+
+            Assert.IsTrue(rows[0].IsDeleted);
+            Assert.IsFalse(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual(row1, CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("This is just a simple sentence,5,6", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual(row3, CsvParser.ToCsv(rows[2].Source));
+        }
+
+
+
+        [Test]
+        public void EmptyPlusStopLoad()
+        {
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.StopLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Value = ""},
+            });
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,5,";
+            var row3 = "7,8,9";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsTrue(rows[1].IsDeleted);
+            Assert.IsTrue(rows[2].IsDeleted);
+
+            Assert.AreEqual("1,2,3", CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("4,5,", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual("7,8,9", CsvParser.ToCsv(rows[2].Source));
+        }
+
+        [Test]
+        public void EqualPlusStopLoad()
+        {
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.StopLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Equal, ConditionArgument = "6", Value = ""},
+            });
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,5,6";
+            var row3 = "7,8,9";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsTrue(rows[1].IsDeleted);
+            Assert.IsTrue(rows[2].IsDeleted);
+
+            Assert.AreEqual("1,2,3", CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("4,5,6", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual("7,8,9", CsvParser.ToCsv(rows[2].Source));
+        }
+
+        [Test]
+        public void StartsWithPlusStopLoad()
+        {
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.StopLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.StartsWith, ConditionArgument = "6", Value = ""},
+            });
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,5,6A";
+            var row3 = "7,8,9";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsTrue(rows[1].IsDeleted);
+            Assert.IsTrue(rows[2].IsDeleted);
+
+            Assert.AreEqual("1,2,3", CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("4,5,6A", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual("7,8,9", CsvParser.ToCsv(rows[2].Source));
+        }
+
+        [Test]
+        public void EndsWithPlusStopLoad()
+        {
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.StopLoad, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.EndsWith, ConditionArgument = "A", Value = ""},
+            });
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,5,6A";
+            var row3 = "7,8,9";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsTrue(rows[1].IsDeleted);
+            Assert.IsTrue(rows[2].IsDeleted);
+
+            Assert.AreEqual("1,2,3", CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("4,5,6A", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual("7,8,9", CsvParser.ToCsv(rows[2].Source));
+        }
+
+
+
+        [Test]
+        public void RegexPlusStopLoad()
+        {
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.StopLoad, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Regex, ConditionArgument = "(?<=This is)(.*)(?=sentence)", Value = "AAA"}
+            });
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "This is just a simple sentence,5,6";
+            var row3 = "7,8,9";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsTrue(rows[1].IsDeleted);
+            Assert.IsTrue(rows[2].IsDeleted);
+
+            Assert.AreEqual(row1, CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual("This is just a simple sentence,5,6", CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual(row3, CsvParser.ToCsv(rows[2].Source));
+        }
+
+
 
 
     }

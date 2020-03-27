@@ -13,8 +13,8 @@ namespace SyncManager.Etl.Cleanup
         private readonly FrameState _frameState = new FrameState();
 
         private bool _isInitialized;
-        private string _previousNonEmptyValue;
-
+        private Dictionary<string, object> _previousNonEmptyValue = new Dictionary<string, object>();
+        private Dictionary<string, string> _matched = new Dictionary<string, string>(); 
         public Cleanuper(List<CleanupRule> rules)
         {
             foreach (var cleanupRule in rules)
@@ -41,25 +41,36 @@ namespace SyncManager.Etl.Cleanup
             var capturedValue = etlRow.Source[rule.ColumnName];
             var stringValue = capturedValue != null ? capturedValue.ToString() : "";
             if (CheckCondition(rule, etlRow, capturedValue, stringValue))
+            {
                 ApplyConditionalCleanup(rule, etlRow, stringValue, result);
+            }
+            ApplyNonConditionalCleanup(rule, etlRow, stringValue, result);
+
         }
 
         private void TryToInit()
         {
             if (_isInitialized) return;
-            if (_cleanupRulesIndex.SelectMany(a => a.Value)
-                .Any(a => a.IsEnabled && a.Action == CleanupAction.StartLoad))
+            var values = _cleanupRulesIndex.SelectMany(a => a.Value).Where(a=>a.IsEnabled);
+            if (values
+                .Any(a=>(a.Action == CleanupAction.StartLoad|| a.Action == CleanupAction.StopLoad)))
             {
+                if (values.All(a => a.Action != CleanupAction.StartLoad))
+                {
+                    _frameState.MakeOpenedByDefault();
+                }
                 _frameState.Capture();
                 ;
             }
+       
+
 
             _isInitialized = true;
         }
 
         private void Post(EtlRow etlRow, SingleCleanupRuleResult result)
         {
-            if (_frameState.Ignore()) result.IsDeleted = true;
+            if (_frameState.IsLocked()) result.IsDeleted = true;
         }
 
         private void ApplyNonConditionalCleanup(CleanupRule rule, EtlRow etlRow, string stringValue,
@@ -69,12 +80,17 @@ namespace SyncManager.Etl.Cleanup
             {
                 case CleanupAction.GetPrevious:
                 {
-                    if (string.IsNullOrEmpty(stringValue))
-                        etlRow.Source[rule.ColumnName] = _previousNonEmptyValue;
+                    if (string.IsNullOrEmpty(stringValue) && _previousNonEmptyValue.ContainsKey(rule.ColumnName))
+                        etlRow.Source[rule.ColumnName] = _previousNonEmptyValue[rule.ColumnName];
                     else
-                        _previousNonEmptyValue = stringValue;
+                        _previousNonEmptyValue[rule.ColumnName] = stringValue;
                 }
                     break;
+            }
+
+            if (_frameState.IsLocked())
+            {
+                result.IsDeleted = true;
             }
         }
 
@@ -90,7 +106,16 @@ namespace SyncManager.Etl.Cleanup
                     break;
                 case CleanupAction.ReplaceMatched:
                 {
-                    etlRow.Source[rule.ColumnName] = stringValue.Replace(rule.ConditionArgument, rule.Value);
+                    if (_matched.ContainsKey(rule.ColumnName) && !string.IsNullOrEmpty(_matched[rule.ColumnName]))
+                        if (string.IsNullOrEmpty(stringValue))
+                        {
+                            etlRow.Source[rule.ColumnName] = rule.Value;
+                        }
+                        else
+                        {
+                            etlRow.Source[rule.ColumnName] = stringValue.Replace(_matched[rule.ColumnName], rule.Value);
+                        }
+                    
                 }
                     break;
                 case CleanupAction.Remove:
@@ -123,27 +148,39 @@ namespace SyncManager.Etl.Cleanup
             {
                 case CleanupCondition.Empty:
                 {
-                    return capturedValue == null || capturedValue as string == "";
+                    _matched[rule.ColumnName] = rule.Value;
+                        return capturedValue == null || capturedValue as string == "";
                 }
                 case CleanupCondition.StartsWith:
                 {
+                    _matched[rule.ColumnName] = rule.ConditionArgument;
                     return stringValue.StartsWith(rule.ConditionArgument);
                 }
                 case CleanupCondition.EndsWith:
                 {
+                    _matched[rule.ColumnName] = rule.ConditionArgument;
                     return stringValue.EndsWith(rule.ConditionArgument);
                 }
                 case CleanupCondition.Equal:
                 {
-                    return stringValue == rule.ConditionArgument;
+                    _matched[rule.ColumnName] = rule.ConditionArgument;
+                        return stringValue == rule.ConditionArgument;
                 }
                 case CleanupCondition.Regex:
                 {
-                    return Regex.IsMatch(stringValue, rule.ConditionArgument);
+                    var matched = Regex.Match(stringValue, rule.ConditionArgument);
+                    if (matched.Length > 0)
+                    {
+                         _matched[rule.ColumnName] = matched.Value;
+                         return true;
+                    }
+
+                    return false;
                 }
                 case CleanupCondition.Contains:
                 {
-                    return stringValue.Contains(rule.ConditionArgument);
+                    _matched[rule.ColumnName] = rule.ConditionArgument;
+                        return stringValue.Contains(rule.ConditionArgument);
                 }
                 default:
                     return false;
