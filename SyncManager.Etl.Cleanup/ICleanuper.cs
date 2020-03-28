@@ -8,6 +8,6 @@ namespace SyncManager.Etl.Cleanup
 {
     public interface ICleanuper
     {
-        void Cleanup(EtlRow etlRow);
+        void Cleanup(SourceContext sourceContext);
     }
 }

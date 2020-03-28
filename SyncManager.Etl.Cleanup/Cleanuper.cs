@@ -28,42 +28,61 @@ namespace SyncManager.Etl.Cleanup
             }
         }
 
-        public void Cleanup(EtlRow etlRow)
+        public void Cleanup(SourceContext sourceContext)
         {
             TryToInit();
             var result = new SingleCleanupRuleResult();
             foreach (var cleanupRuleList in _cleanupRulesIndex.Values)
             foreach (var cleanupRule in cleanupRuleList.Where(a => a.IsEnabled))
-                Apply(cleanupRule, etlRow, result);
-            Post(etlRow, result);
-            etlRow.IsDeleted = result.IsDeleted;
+            {
+                SafeRun(() =>
+                {
+                    Apply(cleanupRule, sourceContext, result);
+                }, sourceContext, cleanupRule);
+              
+            }
+              
+            Post(sourceContext, result);
+            sourceContext.IsDeleted = result.IsDeleted;
         }
 
-        private void Apply(CleanupRule rule, EtlRow etlRow, SingleCleanupRuleResult result)
+        private void SafeRun(Action action, SourceContext sourceContext, CleanupRule rule)
         {
-            var capturedValue = etlRow.Source[rule.ColumnName];
+            try
+            {
+                action();
+            }
+            catch (Exception e)
+            {
+                sourceContext.AddErrorForColumn(rule.ColumnName, e, SourceContext.ErrorTypeCleanup);
+            }
+        }
+
+        private void Apply(CleanupRule rule, SourceContext sourceContext, SingleCleanupRuleResult result)
+        {
+            var capturedValue = sourceContext.Source[rule.ColumnName];
             var stringValue = capturedValue != null ? capturedValue.ToString() : "";
-            EnrichContextByRow(etlRow);
+            EnrichContextByRow(sourceContext);
             Lazy<string> evaluation = new Lazy<string>(() =>
             {
              
-                var    evaluatedResult = _expressionEvaluator.Evaluate(rule.Expression).ToString();
+                var evaluatedResult = _expressionEvaluator.Evaluate(rule.Expression).ToString();
                 
                 
                 return evaluatedResult;
             });
             EvaluatedValue evaluatedValue = new EvaluatedValue(evaluation);
-            if (CheckCondition(rule, etlRow, capturedValue, stringValue, evaluatedValue))
+            if (CheckCondition(rule, sourceContext, capturedValue, stringValue, evaluatedValue))
             {
-                ApplyConditionalCleanup(rule, etlRow, stringValue, result, evaluatedValue);
+                ApplyConditionalCleanup(rule, sourceContext, stringValue, result, evaluatedValue);
             }
-            ApplyNonConditionalCleanup(rule, etlRow, stringValue, result, evaluatedValue);
+            ApplyNonConditionalCleanup(rule, sourceContext, stringValue, result, evaluatedValue);
 
         }
 
-        private void EnrichContextByRow(EtlRow etlRow)
+        private void EnrichContextByRow(SourceContext sourceContext)
         {
-            _expressionEvaluator.EnrichContext("source", etlRow.Source);
+            _expressionEvaluator.EnrichContext("source", sourceContext.Source);
         }
 
         private void TryToInit()
@@ -86,12 +105,12 @@ namespace SyncManager.Etl.Cleanup
             _isInitialized = true;
         }
 
-        private void Post(EtlRow etlRow, SingleCleanupRuleResult result)
+        private void Post(SourceContext sourceContext, SingleCleanupRuleResult result)
         {
             if (_frameState.IsLocked()) result.IsDeleted = true;
         }
 
-        private void ApplyNonConditionalCleanup(CleanupRule rule, EtlRow etlRow, string stringValue,
+        private void ApplyNonConditionalCleanup(CleanupRule rule, SourceContext sourceContext, string stringValue,
             SingleCleanupRuleResult result, EvaluatedValue evaluation)
         {
             switch (rule.Action)
@@ -99,7 +118,7 @@ namespace SyncManager.Etl.Cleanup
                 case CleanupAction.GetPrevious:
                 {
                     if (string.IsNullOrEmpty(stringValue) && _previousNonEmptyValue.ContainsKey(rule.ColumnName))
-                        etlRow.Source[rule.ColumnName] = _previousNonEmptyValue[rule.ColumnName];
+                        sourceContext.Source[rule.ColumnName] = _previousNonEmptyValue[rule.ColumnName];
                     else
                         _previousNonEmptyValue[rule.ColumnName] = stringValue;
                 }
@@ -112,7 +131,7 @@ namespace SyncManager.Etl.Cleanup
             }
         }
 
-        private void ApplyConditionalCleanup(CleanupRule rule, EtlRow etlRow, string stringValue,
+        private void ApplyConditionalCleanup(CleanupRule rule, SourceContext sourceContext, string stringValue,
             SingleCleanupRuleResult result, EvaluatedValue evaluation)
         {
             
@@ -120,7 +139,7 @@ namespace SyncManager.Etl.Cleanup
             {
                 case CleanupAction.Replace:
                 {
-                    etlRow.Source[rule.ColumnName] = evaluation.Value;
+                    sourceContext.Source[rule.ColumnName] = evaluation.Value;
                 }
                     break;
                 case CleanupAction.ReplaceMatched:
@@ -128,11 +147,11 @@ namespace SyncManager.Etl.Cleanup
                     if (_matched.ContainsKey(rule.ColumnName) && !string.IsNullOrEmpty(_matched[rule.ColumnName]))
                         if (string.IsNullOrEmpty(stringValue))
                         {
-                            etlRow.Source[rule.ColumnName] = evaluation.Value;
+                            sourceContext.Source[rule.ColumnName] = evaluation.Value;
                             }
                         else
                         {
-                            etlRow.Source[rule.ColumnName] = stringValue.Replace(_matched[rule.ColumnName], evaluation.Value);
+                            sourceContext.Source[rule.ColumnName] = stringValue.Replace(_matched[rule.ColumnName], evaluation.Value);
                         }
                     
                 }
@@ -161,7 +180,7 @@ namespace SyncManager.Etl.Cleanup
         }
 
 
-        private bool CheckCondition(CleanupRule rule, EtlRow etlRow, object capturedValue, string stringValue,
+        private bool CheckCondition(CleanupRule rule, SourceContext sourceContext, object capturedValue, string stringValue,
             EvaluatedValue evaluation)
         {
 

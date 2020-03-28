@@ -13,6 +13,7 @@ namespace Tests.SyncManager.Cleanup
                 var result = source["Col1"] as string == "4";
                 return result;
             };
+            Evaluations["a/0"] = () => throw new Exception("Some error");
         }
 
         public Dictionary<string, object> Variables { get; set; } = new Dictionary<string, object>();

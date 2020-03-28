@@ -30,7 +30,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row1, headerList));
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
-            var rows = list.Select(a => new EtlRow() {Source = a}).ToList();
+            var rows = list.Select(a => new SourceContext() {Source = a}).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -65,7 +65,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row1, headerList));
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -100,7 +100,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row1, headerList));
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -133,7 +133,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row1, headerList));
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -166,7 +166,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row1, headerList));
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -200,7 +200,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -235,7 +235,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -271,7 +271,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -306,7 +306,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -341,7 +341,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -376,7 +376,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -413,7 +413,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -448,7 +448,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -484,7 +484,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -520,7 +520,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -555,7 +555,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -591,7 +591,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -627,7 +627,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -662,7 +662,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -698,7 +698,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -733,7 +733,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -769,7 +769,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -805,7 +805,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -841,7 +841,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -876,7 +876,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -911,7 +911,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -946,7 +946,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -982,7 +982,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1015,7 +1015,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1049,7 +1049,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1083,7 +1083,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1117,7 +1117,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1152,7 +1152,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1189,7 +1189,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1223,7 +1223,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1257,7 +1257,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1291,7 +1291,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1327,7 +1327,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1363,7 +1363,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1397,7 +1397,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1431,7 +1431,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1465,7 +1465,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1500,7 +1500,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1536,7 +1536,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1572,7 +1572,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1611,7 +1611,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1646,7 +1646,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1681,7 +1681,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1717,7 +1717,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1753,7 +1753,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1788,7 +1788,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1824,7 +1824,7 @@ namespace Tests.SyncManager.Cleanup
             list.Add(CsvParser.Parse(row2, headerList));
             list.Add(CsvParser.Parse(row3, headerList));
 
-            var rows = list.Select(a => new EtlRow() { Source = a }).ToList();
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
             foreach (var row in rows)
             {
                 cleanuper.Cleanup(row);
@@ -1838,6 +1838,45 @@ namespace Tests.SyncManager.Cleanup
             Assert.AreEqual(row1, CsvParser.ToCsv(rows[0].Source));
             Assert.AreEqual(row2, CsvParser.ToCsv(rows[1].Source));
             Assert.AreEqual(row3, CsvParser.ToCsv(rows[2].Source));
+        }
+
+
+        [Test]
+        public void ExpressionThrows()
+        {
+            var expressionEvaluator = GetMocked();
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.Remove, ColumnName = "Col1", IsEnabled = true, Condition = CleanupCondition.Expression, ConditionArgument = "a/0", Expression =  "'AAA'"}
+            }, expressionEvaluator);
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,3";
+            var row2 = "4,5,6";
+            var row3 = "7,8,9";
+
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+
+            Assert.IsFalse(rows[0].IsDeleted);
+            Assert.IsFalse(rows[1].IsDeleted);
+            Assert.IsFalse(rows[2].IsDeleted);
+
+            Assert.AreEqual(row1, CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual(row2, CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual(row3, CsvParser.ToCsv(rows[2].Source));
+            Assert.AreEqual("Some error", rows[0].Errors["Col1"][0].Exception.Message);
+            Assert.AreEqual("Some error", rows[1].Errors["Col1"][0].Exception.Message);
+            Assert.AreEqual("Some error", rows[2].Errors["Col1"][0].Exception.Message);
         }
 
 
