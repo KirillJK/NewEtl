@@ -12,18 +12,23 @@ namespace SyncManager.Etl.Common
         public const string ErrorTypeCleanup = "Cleanup";
         public Dictionary<string, object> Source { get; set; } = new Dictionary<string, object>();
         public bool IsDeleted { get; set; }
-        public Dictionary<string, List<ContextError>> Errors { get; set; } = new Dictionary<string, List<ContextError>>();
-
+        public Dictionary<string, List<ContextError>> CellErrors { get; set; } = new Dictionary<string, List<ContextError>>();
+        public List<ContextError> RowErrors { get; set; } = new List<ContextError>();
         public void AddErrorForColumn(string columnName, Exception error, string type)
         {
-            if (!Errors.ContainsKey(columnName))
+            if (!CellErrors.ContainsKey(columnName))
             {
-                Errors[columnName] = new List<ContextError>();
+                CellErrors[columnName] = new List<ContextError>();
             }
-            Errors[columnName].Add(new ContextError()
+            CellErrors[columnName].Add(new ContextError()
             {
                 Exception = error, Type = type
             });
+        }
+
+        public void AddErrorForRow(Exception e)
+        {
+            RowErrors.Add(new ContextError(){Exception = e});
         }
     }
 

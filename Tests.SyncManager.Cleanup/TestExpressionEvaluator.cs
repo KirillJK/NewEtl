@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using SyncManager.Etl.Common;
 
-namespace Tests.SyncManager.Cleanup
+namespace Tests.SyncManager.NewSteps
 {
     public class TestExpressionEvaluator : IExpressionEvaluator
     {
@@ -32,6 +33,11 @@ namespace Tests.SyncManager.Cleanup
             }
             var result = Evaluations[expression]();
             return result;
+        }
+
+        public bool ConditionalEvaluate(string expression)
+        {
+            return (bool)Evaluate(expression);
         }
     }
 }

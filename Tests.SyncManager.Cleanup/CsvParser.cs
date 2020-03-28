@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Tests.SyncManager.Cleanup
+namespace Tests.SyncManager.NewSteps
 {
     public class CsvParser
     {

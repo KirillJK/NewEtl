@@ -255,10 +255,3 @@ public class EvaluatedValue
         }
     }
 }
-
-
-public interface IExpressionEvaluator
-{
-    void EnrichContext(string key, object value);
-    object Evaluate(string expression);
-}

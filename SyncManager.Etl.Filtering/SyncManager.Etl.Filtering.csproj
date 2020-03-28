@@ -4,13 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{90B83C35-E418-4F6C-9767-368087B1ED9B}</ProjectGuid>
+    <ProjectGuid>{83BBCF3C-861A-4ADA-A9C5-FCF411BFAB3C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SyncManager.Etl.Common</RootNamespace>
-    <AssemblyName>SyncManager.Etl.Common</AssemblyName>
+    <RootNamespace>SyncManager.Etl.Filtering</RootNamespace>
+    <AssemblyName>SyncManager.Etl.Filtering</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,9 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IExpressionEvaluator.cs" />
-    <Compile Include="SourceContext.cs" />
+    <Compile Include="FilterRule.cs" />
+    <Compile Include="Filterer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SyncManager.Etl.Common\SyncManager.Etl.Common.csproj">
+      <Project>{90B83C35-E418-4F6C-9767-368087B1ED9B}</Project>
+      <Name>SyncManager.Etl.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

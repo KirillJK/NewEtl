@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using SyncManager.Etl.Cleanup;
 using SyncManager.Etl.Common;
 
-namespace Tests.SyncManager.Cleanup
+namespace Tests.SyncManager.NewSteps
 {
     [TestFixture]
     public class CleanuperTests
@@ -1874,9 +1871,9 @@ namespace Tests.SyncManager.Cleanup
             Assert.AreEqual(row1, CsvParser.ToCsv(rows[0].Source));
             Assert.AreEqual(row2, CsvParser.ToCsv(rows[1].Source));
             Assert.AreEqual(row3, CsvParser.ToCsv(rows[2].Source));
-            Assert.AreEqual("Some error", rows[0].Errors["Col1"][0].Exception.Message);
-            Assert.AreEqual("Some error", rows[1].Errors["Col1"][0].Exception.Message);
-            Assert.AreEqual("Some error", rows[2].Errors["Col1"][0].Exception.Message);
+            Assert.AreEqual("Some error", rows[0].CellErrors["Col1"][0].Exception.Message);
+            Assert.AreEqual("Some error", rows[1].CellErrors["Col1"][0].Exception.Message);
+            Assert.AreEqual("Some error", rows[2].CellErrors["Col1"][0].Exception.Message);
         }
 
 
