@@ -5,7 +5,7 @@ namespace SyncManager.FlowClockwork.ETL
 {
     public class TransformDataDriver : IDataDriver<SourceContext>
     {
-        private ITransformer _transformer;
+        private readonly ITransformer _transformer;
 
         public TransformDataDriver(ITransformer transformer)
         {
