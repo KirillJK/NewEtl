@@ -71,6 +71,7 @@ namespace SyncManager.Readers
             }
         }
 
+
         public bool IsEnd
         {
             get
