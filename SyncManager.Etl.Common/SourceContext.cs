@@ -10,6 +10,8 @@ namespace SyncManager.Etl.Common
     {
 
         public const string ErrorTypeCleanup = "Cleanup";
+        public const string ErrorTypeFilter = "Filter";
+        public const string ErrorTypeSchema = "Schema";
         public Dictionary<string, object> Source { get; set; } = new Dictionary<string, object>();
         public bool IsDeleted { get; set; }
         public Dictionary<string, List<ContextError>> CellErrors { get; set; } = new Dictionary<string, List<ContextError>>();
@@ -24,6 +26,27 @@ namespace SyncManager.Etl.Common
             {
                 Exception = error, Type = type
             });
+        }
+
+        public void AddErrorForColumn(string columnName, string message, string type)
+        {
+            if (!CellErrors.ContainsKey(columnName))
+            {
+                CellErrors[columnName] = new List<ContextError>();
+            }
+            CellErrors[columnName].Add(new ContextError()
+            {
+                Message = message,
+                Type = type
+            });
+        }
+
+        public void UpdateSource(Dictionary<string, object> data)
+        {
+            foreach (var o in data)
+            {
+                Source[o.Key] = o.Value;
+            }
         }
 
         public void AddErrorForRow(Exception e)

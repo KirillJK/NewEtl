@@ -4,13 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{90B83C35-E418-4F6C-9767-368087B1ED9B}</ProjectGuid>
+    <ProjectGuid>{345C363B-2C75-46E4-9B83-1CB84D5D1160}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SyncManager.Etl.Common</RootNamespace>
-    <AssemblyName>SyncManager.Etl.Common</AssemblyName>
+    <RootNamespace>SyncManager.Common</RootNamespace>
+    <AssemblyName>SyncManager.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,15 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IExpressionEvaluator.cs" />
-    <Compile Include="SourceContext.cs" />
+    <Compile Include="ValueType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SyncManager.Common\SyncManager.Common.csproj">
-      <Project>{345c363b-2c75-46e4-9b83-1cb84d5d1160}</Project>
-      <Name>SyncManager.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
