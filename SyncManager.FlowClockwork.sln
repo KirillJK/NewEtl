@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.Common", "SyncM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.Readers", "SyncManager.Readers\SyncManager.Readers.csproj", "{172D9817-ABF7-4F89-9329-415D9D681DCC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.Etl.Transformation", "SyncManager.Etl.Transformation\SyncManager.Etl.Transformation.csproj", "{4D89410B-2A0D-4C4F-AA1C-1027B9DED68E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{172D9817-ABF7-4F89-9329-415D9D681DCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{172D9817-ABF7-4F89-9329-415D9D681DCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{172D9817-ABF7-4F89-9329-415D9D681DCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D89410B-2A0D-4C4F-AA1C-1027B9DED68E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D89410B-2A0D-4C4F-AA1C-1027B9DED68E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D89410B-2A0D-4C4F-AA1C-1027B9DED68E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D89410B-2A0D-4C4F-AA1C-1027B9DED68E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

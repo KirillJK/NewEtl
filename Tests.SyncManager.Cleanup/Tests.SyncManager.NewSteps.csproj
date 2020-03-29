@@ -53,6 +53,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchematorTests.cs" />
     <Compile Include="TestExpressionEvaluator.cs" />
+    <Compile Include="TransformerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SyncManager.Common\SyncManager.Common.csproj">
@@ -74,6 +75,10 @@
     <ProjectReference Include="..\SyncManager.Etl.Schema\SyncManager.Etl.Schema.csproj">
       <Project>{97D63D46-79F7-4AAB-8EA7-48E83854B597}</Project>
       <Name>SyncManager.Etl.Schema</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SyncManager.Etl.Transformation\SyncManager.Etl.Transformation.csproj">
+      <Project>{4D89410B-2A0D-4C4F-AA1C-1027B9DED68E}</Project>
+      <Name>SyncManager.Etl.Transformation</Name>
     </ProjectReference>
     <ProjectReference Include="..\SyncManager.Readers\SyncManager.Readers.csproj">
       <Project>{172D9817-ABF7-4F89-9329-415D9D681DCC}</Project>

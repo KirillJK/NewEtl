@@ -78,7 +78,7 @@ namespace Tests.SyncManager.NewSteps
             };
             filterer.Filter(rowCtx);
             Assert.IsFalse(rowCtx.IsDeleted);
-            Assert.AreEqual("Some error", rowCtx.RowErrors[0].Exception.Message);
+            Assert.AreEqual("Some error", rowCtx.SourceRowErrors[0].Exception.Message);
 
         }
     }

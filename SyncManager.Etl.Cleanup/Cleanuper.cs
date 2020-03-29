@@ -54,7 +54,7 @@ namespace SyncManager.Etl.Cleanup
             }
             catch (Exception e)
             {
-                sourceContext.AddErrorForColumn(rule.ColumnName, e, SourceContext.ErrorTypeCleanup);
+                sourceContext.AddErrorForSourceColumn(rule.ColumnName, e, SourceContext.ErrorTypeCleanup);
             }
         }
 

@@ -12,29 +12,59 @@ namespace SyncManager.Etl.Common
         public const string ErrorTypeCleanup = "Cleanup";
         public const string ErrorTypeFilter = "Filter";
         public const string ErrorTypeSchema = "Schema";
+        public const string ErrorTypeTransformation = "Transformation";
         public Dictionary<string, object> Source { get; set; } = new Dictionary<string, object>();
+        public Dictionary<string, object> Destination { get; set; } = new Dictionary<string, object>();
         public bool IsDeleted { get; set; }
-        public Dictionary<string, List<ContextError>> CellErrors { get; set; } = new Dictionary<string, List<ContextError>>();
-        public List<ContextError> RowErrors { get; set; } = new List<ContextError>();
-        public void AddErrorForColumn(string columnName, Exception error, string type)
+        public HashSet<string> ListOfSchemaMissedColumns { get; set; } = new HashSet<string>();
+        public Dictionary<string, List<ContextError>> SourceCellErrors { get; set; } = new Dictionary<string, List<ContextError>>();
+        public List<ContextError> SourceRowErrors { get; set; } = new List<ContextError>();
+        public void AddErrorForSourceColumn(string columnName, Exception error, string type)
         {
-            if (!CellErrors.ContainsKey(columnName))
+            if (!SourceCellErrors.ContainsKey(columnName))
             {
-                CellErrors[columnName] = new List<ContextError>();
+                SourceCellErrors[columnName] = new List<ContextError>();
             }
-            CellErrors[columnName].Add(new ContextError()
+            SourceCellErrors[columnName].Add(new ContextError()
             {
                 Exception = error, Type = type
             });
         }
-
-        public void AddErrorForColumn(string columnName, string message, string type)
+        public void AddErrorForSourceColumn(string columnName, string message, string type)
         {
-            if (!CellErrors.ContainsKey(columnName))
+            if (!SourceCellErrors.ContainsKey(columnName))
             {
-                CellErrors[columnName] = new List<ContextError>();
+                SourceCellErrors[columnName] = new List<ContextError>();
             }
-            CellErrors[columnName].Add(new ContextError()
+            SourceCellErrors[columnName].Add(new ContextError()
+            {
+                Message = message,
+                Type = type
+            });
+        }
+
+
+        public Dictionary<string, List<ContextError>> DestinationCellErrors { get; set; } = new Dictionary<string, List<ContextError>>();
+        public List<ContextError> DestinationRowErrors { get; set; } = new List<ContextError>();
+        public void AddErrorForDestinationColumn(string columnName, Exception error, string type)
+        {
+            if (!DestinationCellErrors.ContainsKey(columnName))
+            {
+                DestinationCellErrors[columnName] = new List<ContextError>();
+            }
+            DestinationCellErrors[columnName].Add(new ContextError()
+            {
+                Exception = error,
+                Type = type
+            });
+        }
+        public void AddErrorForDestinationColumn(string columnName, string message, string type)
+        {
+            if (!DestinationCellErrors.ContainsKey(columnName))
+            {
+                DestinationCellErrors[columnName] = new List<ContextError>();
+            }
+            DestinationCellErrors[columnName].Add(new ContextError()
             {
                 Message = message,
                 Type = type
@@ -51,7 +81,7 @@ namespace SyncManager.Etl.Common
 
         public void AddErrorForRow(Exception e)
         {
-            RowErrors.Add(new ContextError(){Exception = e});
+            SourceRowErrors.Add(new ContextError(){Exception = e});
         }
     }
 

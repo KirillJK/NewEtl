@@ -1871,9 +1871,9 @@ namespace Tests.SyncManager.NewSteps
             Assert.AreEqual(row1, CsvParser.ToCsv(rows[0].Source));
             Assert.AreEqual(row2, CsvParser.ToCsv(rows[1].Source));
             Assert.AreEqual(row3, CsvParser.ToCsv(rows[2].Source));
-            Assert.AreEqual("Some error", rows[0].CellErrors["Col1"][0].Exception.Message);
-            Assert.AreEqual("Some error", rows[1].CellErrors["Col1"][0].Exception.Message);
-            Assert.AreEqual("Some error", rows[2].CellErrors["Col1"][0].Exception.Message);
+            Assert.AreEqual("Some error", rows[0].SourceCellErrors["Col1"][0].Exception.Message);
+            Assert.AreEqual("Some error", rows[1].SourceCellErrors["Col1"][0].Exception.Message);
+            Assert.AreEqual("Some error", rows[2].SourceCellErrors["Col1"][0].Exception.Message);
         }
 
 

@@ -44,7 +44,7 @@ namespace Tests.SyncManager.NewSteps
                     IsRequired = true
                 }
             }, sourceContext);
-            Assert.IsTrue(sourceContext.CellErrors["Col1"][0].Message.ToLower().Contains("missed"));
+            Assert.IsTrue(sourceContext.SourceCellErrors["Col1"][0].Message.ToLower().Contains("missed"));
         }
 
         [Test]

@@ -37,12 +37,12 @@ namespace SyncManager.Etl.Schema
                     }
                     else
                     {
-                        sourceContext.AddErrorForColumn(dataSourceSchemaItem.ColumnName, "Value for required field is missed", SourceContext.ErrorTypeSchema);
+                        sourceContext.AddErrorForSourceColumn(dataSourceSchemaItem.ColumnName, "Value for required field is missed", SourceContext.ErrorTypeSchema);
                     }
                 }
                 catch (Exception e)
                 {
-                    sourceContext.AddErrorForColumn(dataSourceSchemaItem.GetName(), e, SourceContext.ErrorTypeSchema);
+                    sourceContext.AddErrorForSourceColumn(dataSourceSchemaItem.GetName(), e, SourceContext.ErrorTypeSchema);
                 }
             }
         }
