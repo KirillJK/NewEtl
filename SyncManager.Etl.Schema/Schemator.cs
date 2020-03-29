@@ -10,22 +10,23 @@ namespace SyncManager.Etl.Schema
 {
     public interface ISchemator
     {
-        void Schema(List<DataSourceSchemaItem> schema, SourceContext sourceContext);
+        void Schema(SourceContext sourceContext);
     }
 
 
     public class Schemator: ISchemator
     {
         private readonly Lazy<ICastProvider> _castProvider;
-
-        public Schemator()
+        private List<DataSourceSchemaItem> _schema;
+        public Schemator(List<DataSourceSchemaItem> schema)
         {
+            _schema = schema;
             _castProvider = new Lazy<ICastProvider>(() => DefaultCastProvider.Instance);
         }
 
-        public void Schema(List<DataSourceSchemaItem> schema, SourceContext sourceContext)
+        public void Schema( SourceContext sourceContext)
         {
-            foreach (var dataSourceSchemaItem in schema)
+            foreach (var dataSourceSchemaItem in _schema)
             {
                 var columnValue = sourceContext.Source[dataSourceSchemaItem.ColumnName];
                 try

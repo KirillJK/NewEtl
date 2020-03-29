@@ -10,6 +10,7 @@ namespace Tests.SyncManager.FlowClockwork.FileMoverTest
     public class FileMoveTest
     {
         [Test]
+        [Ignore("Integration")]
         public void Run()
         {
             var input = @"C:\Temp\My\1.txt";
