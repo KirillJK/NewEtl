@@ -42,6 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CsvParser.cs" />
+    <Compile Include="CsvReader.cs" />
+    <Compile Include="DestinationWriter.cs" />
+    <Compile Include="IDestinationWriter.cs" />
     <Compile Include="ISourceReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

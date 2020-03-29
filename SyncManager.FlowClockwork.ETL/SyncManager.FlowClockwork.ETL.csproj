@@ -41,10 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BeginEtlDataDriver.cs" />
     <Compile Include="SourceReaderDataDriver.cs" />
     <Compile Include="CleanupDataDriver.cs" />
     <Compile Include="FilterDataDriver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SourceWriterDataDriver.cs" />
     <Compile Include="TransformDataDriver.cs" />
   </ItemGroup>
   <ItemGroup>
