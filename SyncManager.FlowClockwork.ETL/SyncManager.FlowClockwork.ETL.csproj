@@ -41,13 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BeginEtlDataDriver.cs" />
-    <Compile Include="SourceReaderDataDriver.cs" />
-    <Compile Include="CleanupDataDriver.cs" />
-    <Compile Include="FilterDataDriver.cs" />
+    <Compile Include="Drivers\BeginEtlDataDriver.cs" />
+    <Compile Include="Drivers\SourceReaderDataDriver.cs" />
+    <Compile Include="Drivers\CleanupDataDriver.cs" />
+    <Compile Include="Drivers\FilterDataDriver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SourceWriterDataDriver.cs" />
-    <Compile Include="TransformDataDriver.cs" />
+    <Compile Include="Drivers\SourceWriterDataDriver.cs" />
+    <Compile Include="Drivers\TransformDataDriver.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SyncManager.Etl.Cleanup\SyncManager.Etl.Cleanup.csproj">

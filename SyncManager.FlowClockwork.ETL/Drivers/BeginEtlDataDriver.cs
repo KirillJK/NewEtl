@@ -1,6 +1,6 @@
 ﻿using SyncManager.Etl.Common;
 
-namespace SyncManager.FlowClockwork.ETL
+namespace SyncManager.FlowClockwork.ETL.Drivers
 {
     public class BeginEtlDataDriver:IDataDriver<SourceContext>
     {

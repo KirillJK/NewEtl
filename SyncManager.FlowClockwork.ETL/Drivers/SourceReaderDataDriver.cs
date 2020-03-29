@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SyncManager.Etl.Common;
+﻿using SyncManager.Etl.Common;
 using SyncManager.Readers;
 
-namespace SyncManager.FlowClockwork.ETL
+namespace SyncManager.FlowClockwork.ETL.Drivers
 {
     public class SourceReaderDataDriver:IDataDriver<SourceContext>
     {

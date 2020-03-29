@@ -1,7 +1,7 @@
 ﻿using SyncManager.Etl.Common;
 using SyncManager.Etl.Filtering;
 
-namespace SyncManager.FlowClockwork.ETL
+namespace SyncManager.FlowClockwork.ETL.Drivers
 {
     public class FilterDataDriver : IDataDriver<SourceContext>
     {
