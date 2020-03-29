@@ -17,6 +17,16 @@ namespace SyncManager.FlowClockwork
         {
         }
 
+        public NodeDefinitionProvider() : this(new Dictionary<string, NodeDefinition>(), null)
+        {
+
+        }
+
+        public void SetRoot(string rootName)
+        {
+            _rootName = rootName;
+        }
+
         public void Register(string name, NodeDefinition definition)
         {
             _definitions[name] = definition;

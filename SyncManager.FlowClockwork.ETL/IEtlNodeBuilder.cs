@@ -17,5 +17,6 @@ namespace SyncManager.FlowClockwork.ETL
         IEtlNodeBuilder AddTransformations(List<TransformationMap> transformations);
         IEtlNodeBuilder AddDataWriter(string to);
         IEtlNodeBuilder AddDataReader(string from);
+        EtlBuilderPack Get();
     }
 }

@@ -49,6 +49,7 @@
     <Compile Include="CleanuperTests.cs" />
     <Compile Include="CsvParser.cs" />
     <Compile Include="CsvTestReaderTests.cs" />
+    <Compile Include="EtlBuilderTests.cs" />
     <Compile Include="FilterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchematorTests.cs" />
@@ -80,6 +81,14 @@
       <Project>{4D89410B-2A0D-4C4F-AA1C-1027B9DED68E}</Project>
       <Name>SyncManager.Etl.Transformation</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SyncManager.FlowClockwork.ETL\SyncManager.FlowClockwork.ETL.csproj">
+      <Project>{DE0CEB83-7EA2-4842-AFB5-5A54B9B6124F}</Project>
+      <Name>SyncManager.FlowClockwork.ETL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SyncManager.FlowClockwork\SyncManager.FlowClockwork.csproj">
+      <Project>{6798ADC8-209E-45D6-99A1-8903A73974CA}</Project>
+      <Name>SyncManager.FlowClockwork</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SyncManager.Readers\SyncManager.Readers.csproj">
       <Project>{172D9817-ABF7-4F89-9329-415D9D681DCC}</Project>
       <Name>SyncManager.Readers</Name>
@@ -87,6 +96,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="TestData\test.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

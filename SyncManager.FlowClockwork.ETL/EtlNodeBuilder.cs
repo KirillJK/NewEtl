@@ -12,10 +12,10 @@ namespace SyncManager.FlowClockwork.ETL
 {
     public class EtlNodeBuilder: IEtlNodeBuilder
     {
-        private NodeDefinitionProvider _nodeDefinitionProvider = new NodeDefinitionProvider("final");
+        private NodeDefinitionProvider _nodeDefinitionProvider = new NodeDefinitionProvider();
         private NodeRegistry<SourceContext> _nodeRegistry = new NodeRegistry<SourceContext>();
         private IExpressionEvaluator _expressionEvaluator = null;
-        private NodeDefinition _current = new NodeDefinition();
+        private NodeDefinition _current;
         private int _transformationBlockCounter = 0;
         private int _actionCounter = 0;
         private NodeDefinition Attach(NodeDefinition nodeDefinition)
@@ -25,10 +25,10 @@ namespace SyncManager.FlowClockwork.ETL
                 nodeDefinition.DependsOn.Add(_current.Name);
 
             }
-            else
-            {
+          
                 _current = nodeDefinition;
-            }
+            
+            _nodeDefinitionProvider.SetRoot(nodeDefinition.Name);
             return nodeDefinition;
         }
 
@@ -78,7 +78,7 @@ namespace SyncManager.FlowClockwork.ETL
 
         public IEtlNodeBuilder AddDataWriter(string to)
         {
-            Register($"Action{_actionCounter++}", new SourceWriterDataDriver(new DestinationWriter(to)));
+            Register($"Action{_actionCounter++}", new SourceWriterDataDriver(new SourceWriter(to)));
             return this;
         }
 
@@ -87,5 +87,20 @@ namespace SyncManager.FlowClockwork.ETL
             Register("Reader", new SourceReaderDataDriver(new CsvReader(@from)));
             return this;
         }
+
+        public EtlBuilderPack Get()
+        {
+            return new EtlBuilderPack()
+            {
+                NodeDefinitionProvider = _nodeDefinitionProvider,
+                Registry = _nodeRegistry
+            };
+        }
+    }
+
+    public class EtlBuilderPack
+    {
+        public NodeDefinitionProvider NodeDefinitionProvider { get; set; }
+        public NodeRegistry<SourceContext> Registry { get; set; }
     }
 }

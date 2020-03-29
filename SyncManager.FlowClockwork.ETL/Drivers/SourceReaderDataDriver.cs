@@ -20,6 +20,10 @@ namespace SyncManager.FlowClockwork.ETL.Drivers
         public void Process(IDataItemWrapper<SourceContext> item)
         {
             _sourceReader.Read(item.Item);
+            if (_sourceReader.IsEnd)
+            {
+                item.Stop();
+            }
         }
 
         public void Commit()

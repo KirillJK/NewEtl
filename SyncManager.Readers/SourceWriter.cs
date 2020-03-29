@@ -3,12 +3,12 @@ using SyncManager.Etl.Common;
 
 namespace SyncManager.Readers
 {
-    public class DestinationWriter: IDestinationWriter
+    public class SourceWriter: IDestinationWriter
     {
         private StreamWriter _sw;
         private string _path;
 
-        public DestinationWriter(string path)
+        public SourceWriter(string path)
         {
             _path = path;
         }
@@ -22,7 +22,7 @@ namespace SyncManager.Readers
         public void Write(SourceContext context)
         {
             TryToInit();
-            var line = CsvParser.ToCsv(context.Destination);
+            var line = CsvParser.ToCsv(context.Source);
             _sw.WriteLine(line);
         }
 

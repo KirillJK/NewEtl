@@ -18,15 +18,21 @@ namespace SyncManager.Readers
         public void Read(SourceContext context)
         {
             TryToInit();
-            var line = _sr.ReadLine();
+         
             if (_headers == null)
             {
-                _headers = CsvParser.GetParts(line);
+                ReadHeaders();
             }
-            else
-            {
+
+                var line = _sr.ReadLine();
                 context.UpdateSource(CsvParser.Parse(line, _headers));
-            }
+            
+        }
+
+        private void ReadHeaders()
+        {
+            var line = _sr.ReadLine();
+            _headers = CsvParser.GetParts(line);
         }
 
 
