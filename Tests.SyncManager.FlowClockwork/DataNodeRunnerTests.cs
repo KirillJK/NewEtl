@@ -22,12 +22,6 @@ namespace Tests.SyncManager.FlowClockwork
         [Test]
         public void ABBCSimpleWhenANodeShouldntBeCalledTwice()
         {
-            var nodeRegistry = new NodeRegistry<string>();
-            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p => { p.Item = "AAA"; }), "A"));
-            nodeRegistry.Register("B",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "BBB"; }), "B"));
-            nodeRegistry.Register("C",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), "C"));
             var definitionC = new NodeDefinition
             {
                 Name = "C",
@@ -51,6 +45,13 @@ namespace Tests.SyncManager.FlowClockwork
             {
                 Name = "A"
             };
+            var nodeRegistry = new NodeRegistry<string>();
+            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p => { p.Item = "AAA"; }), definitionA));
+            nodeRegistry.Register("B",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "BBB"; }), definitionB));
+            nodeRegistry.Register("C",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), definitionC));
+           
             var provider = new NodeDefinitionProvider("C");
             provider.Register("C", definitionC);
             provider.Register("B", definitionB);
@@ -65,12 +66,6 @@ namespace Tests.SyncManager.FlowClockwork
         [Test]
         public void ABCSimple()
         {
-            var nodeRegistry = new NodeRegistry<string>();
-            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p => { p.Item = "AAA"; }), "A"));
-            nodeRegistry.Register("B",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "BBB"; }), "B"));
-            nodeRegistry.Register("C",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), "C"));
             var definitionC = new NodeDefinition
             {
                 Name = "C",
@@ -93,6 +88,13 @@ namespace Tests.SyncManager.FlowClockwork
             {
                 Name = "A"
             };
+            var nodeRegistry = new NodeRegistry<string>();
+            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p => { p.Item = "AAA"; }), definitionA));
+            nodeRegistry.Register("B",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "BBB"; }), definitionB));
+            nodeRegistry.Register("C",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), definitionC));
+     
             var provider = new NodeDefinitionProvider("C");
             provider.Register("C", definitionC);
             provider.Register("B", definitionB);
@@ -107,19 +109,6 @@ namespace Tests.SyncManager.FlowClockwork
         [Test]
         public void CommitTest()
         {
-            var nodeRegistry = new NodeRegistry<string>();
-            var flag = new TestFlag();
-            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p =>
-            {
-                if (p.Number < 3)
-                    p.Item = $"AAA{p.Number}";
-                if (p.Number == 2)
-                    p.Stop();
-            }, () => { flag.Flag = true; }), "A"));
-            nodeRegistry.Register("B",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "BBB"; }), "B"));
-            nodeRegistry.Register("C",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), "C"));
             var definitionC = new NodeDefinition
             {
                 Name = "C",
@@ -142,6 +131,20 @@ namespace Tests.SyncManager.FlowClockwork
             {
                 Name = "A"
             };
+            var nodeRegistry = new NodeRegistry<string>();
+            var flag = new TestFlag();
+            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p =>
+            {
+                if (p.Number < 3)
+                    p.Item = $"AAA{p.Number}";
+                if (p.Number == 2)
+                    p.Stop();
+            }, () => { flag.Flag = true; }), definitionA));
+            nodeRegistry.Register("B",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "BBB"; }), definitionB));
+            nodeRegistry.Register("C",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), definitionC));
+
             var provider = new NodeDefinitionProvider("C");
             provider.Register("C", definitionC);
             provider.Register("B", definitionB);
@@ -156,18 +159,6 @@ namespace Tests.SyncManager.FlowClockwork
         [Test]
         public void CommitThrowsTest()
         {
-            var nodeRegistry = new NodeRegistry<string>();
-            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p =>
-            {
-                if (p.Number < 3)
-                    p.Item = $"AAA{p.Number}";
-                if (p.Number == 2)
-                    p.Stop();
-            }, () => throw new Exception("Houston we have a problem")), "A"));
-            nodeRegistry.Register("B",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "BBB"; }), "B"));
-            nodeRegistry.Register("C",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), "C"));
             var definitionC = new NodeDefinition
             {
                 Name = "C",
@@ -190,6 +181,19 @@ namespace Tests.SyncManager.FlowClockwork
             {
                 Name = "A"
             };
+            var nodeRegistry = new NodeRegistry<string>();
+            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p =>
+            {
+                if (p.Number < 3)
+                    p.Item = $"AAA{p.Number}";
+                if (p.Number == 2)
+                    p.Stop();
+            }, () => throw new Exception("Houston we have a problem")), definitionA));
+            nodeRegistry.Register("B",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "BBB"; }), definitionB));
+            nodeRegistry.Register("C",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), definitionC));
+
             var provider = new NodeDefinitionProvider("C");
             provider.Register("C", definitionC);
             provider.Register("B", definitionB);
@@ -204,23 +208,6 @@ namespace Tests.SyncManager.FlowClockwork
         [Test]
         public void ThreeRowsAndBThrowsErrorOnTheSecond()
         {
-            var counterWrapper = new TestCounterWrapper();
-            var nodeRegistry = new NodeRegistry<string>();
-            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p =>
-            {
-                if (p.Number < 3)
-                    p.Item = $"AAA{counterWrapper.Counter++}";
-                if (p.Number == 2)
-                    p.Stop();
-            }), "A"));
-            nodeRegistry.Register("B", new BaseNode<string>(new TestActionProcess(p =>
-            {
-                if (p.Number == 1)
-                    throw new Exception("Houston we have a problem");
-                p.Item += "BBB";
-            }), "B"));
-            nodeRegistry.Register("C",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), "C"));
             var definitionC = new NodeDefinition
             {
                 Name = "C",
@@ -243,6 +230,24 @@ namespace Tests.SyncManager.FlowClockwork
             {
                 Name = "A"
             };
+            var counterWrapper = new TestCounterWrapper();
+            var nodeRegistry = new NodeRegistry<string>();
+            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p =>
+            {
+                if (p.Number < 3)
+                    p.Item = $"AAA{counterWrapper.Counter++}";
+                if (p.Number == 2)
+                    p.Stop();
+            }), definitionA));
+            nodeRegistry.Register("B", new BaseNode<string>(new TestActionProcess(p =>
+            {
+                if (p.Number == 1)
+                    throw new Exception("Houston we have a problem");
+                p.Item += "BBB";
+            }), definitionB));
+            nodeRegistry.Register("C",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), definitionC));
+
             var provider = new NodeDefinitionProvider("C");
             provider.Register("C", definitionC);
             provider.Register("B", definitionB);
@@ -257,22 +262,6 @@ namespace Tests.SyncManager.FlowClockwork
         [Test]
         public void ThreeRowsAndNodeBShouldWorkOnce()
         {
-            var counterWrapper = new TestCounterWrapper();
-            var nodeRegistry = new NodeRegistry<string>();
-            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p =>
-            {
-                if (p.Number < 3)
-                    p.Item = $"AAA{counterWrapper.Counter++}";
-                else
-                    p.Stop();
-            }), "A"));
-            nodeRegistry.Register("B", new BaseNode<string>(new TestActionProcess(p =>
-            {
-                p.Item = p.Item += "BBB";
-                p.Exclude();
-            }), "A"));
-            nodeRegistry.Register("C",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), "C"));
             var definitionC = new NodeDefinition
             {
                 Name = "C",
@@ -295,6 +284,23 @@ namespace Tests.SyncManager.FlowClockwork
             {
                 Name = "A"
             };
+            var counterWrapper = new TestCounterWrapper();
+            var nodeRegistry = new NodeRegistry<string>();
+            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p =>
+            {
+                if (p.Number < 3)
+                    p.Item = $"AAA{counterWrapper.Counter++}";
+                else
+                    p.Stop();
+            }), definitionA));
+            nodeRegistry.Register("B", new BaseNode<string>(new TestActionProcess(p =>
+            {
+                p.Item = p.Item += "BBB";
+                p.Exclude();
+            }), definitionA));
+            nodeRegistry.Register("C",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), definitionC));
+           
             var provider = new NodeDefinitionProvider("C");
             provider.Register("C", definitionC);
             provider.Register("B", definitionB);
@@ -314,19 +320,6 @@ namespace Tests.SyncManager.FlowClockwork
         [Test]
         public void ThreeRowsAndOneMustBeIgnoredSimple()
         {
-            var counterWrapper = new TestCounterWrapper();
-            var nodeRegistry = new NodeRegistry<string>();
-            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p =>
-            {
-                if (p.Number < 3)
-                    p.Item = $"AAA{counterWrapper.Counter++}";
-                if (p.Number == 2)
-                    p.Stop();
-            }), "A"));
-            nodeRegistry.Register("B",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "BBB"; }), "B"));
-            nodeRegistry.Register("C",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), "C"));
             var definitionC = new NodeDefinition
             {
                 Name = "C",
@@ -349,6 +342,20 @@ namespace Tests.SyncManager.FlowClockwork
             {
                 Name = "A"
             };
+            var counterWrapper = new TestCounterWrapper();
+            var nodeRegistry = new NodeRegistry<string>();
+            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p =>
+            {
+                if (p.Number < 3)
+                    p.Item = $"AAA{counterWrapper.Counter++}";
+                if (p.Number == 2)
+                    p.Stop();
+            }), definitionA));
+            nodeRegistry.Register("B",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "BBB"; }), definitionB));
+            nodeRegistry.Register("C",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), definitionC));
+
             var provider = new NodeDefinitionProvider("C");
             provider.Register("C", definitionC);
             provider.Register("B", definitionB);
@@ -369,19 +376,6 @@ namespace Tests.SyncManager.FlowClockwork
         [Test]
         public void ThreeRowsSimple()
         {
-            var counterWrapper = new TestCounterWrapper();
-            var nodeRegistry = new NodeRegistry<string>();
-            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p =>
-            {
-                if (p.Number < 3)
-                    p.Item = $"AAA{counterWrapper.Counter++}";
-                else
-                    p.Stop();
-            }), "A"));
-            nodeRegistry.Register("B",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "BBB"; }), "B"));
-            nodeRegistry.Register("C",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), "C"));
             var definitionC = new NodeDefinition
             {
                 Name = "C",
@@ -404,6 +398,20 @@ namespace Tests.SyncManager.FlowClockwork
             {
                 Name = "A"
             };
+            var counterWrapper = new TestCounterWrapper();
+            var nodeRegistry = new NodeRegistry<string>();
+            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p =>
+            {
+                if (p.Number < 3)
+                    p.Item = $"AAA{counterWrapper.Counter++}";
+                else
+                    p.Stop();
+            }), definitionA));
+            nodeRegistry.Register("B",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "BBB"; }), definitionB));
+            nodeRegistry.Register("C",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), definitionC));
+
             var provider = new NodeDefinitionProvider("C");
             provider.Register("C", definitionC);
             provider.Register("B", definitionB);
@@ -423,19 +431,6 @@ namespace Tests.SyncManager.FlowClockwork
         [Test]
         public void ThreeRowsSimpleRun()
         {
-            var counterWrapper = new TestCounterWrapper();
-            var nodeRegistry = new NodeRegistry<string>();
-            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p =>
-            {
-                if (p.Number < 3)
-                    p.Item = $"AAA{counterWrapper.Counter++}";
-                if (p.Number == 2)
-                    p.Stop();
-            }), "A"));
-            nodeRegistry.Register("B",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "BBB"; }), "B"));
-            nodeRegistry.Register("C",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), "C"));
             var definitionC = new NodeDefinition
             {
                 Name = "C",
@@ -458,6 +453,20 @@ namespace Tests.SyncManager.FlowClockwork
             {
                 Name = "A"
             };
+            var counterWrapper = new TestCounterWrapper();
+            var nodeRegistry = new NodeRegistry<string>();
+            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p =>
+            {
+                if (p.Number < 3)
+                    p.Item = $"AAA{counterWrapper.Counter++}";
+                if (p.Number == 2)
+                    p.Stop();
+            }), definitionA));
+            nodeRegistry.Register("B",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "BBB"; }), definitionB));
+            nodeRegistry.Register("C",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), definitionC));
+
             var provider = new NodeDefinitionProvider("C");
             provider.Register("C", definitionC);
             provider.Register("B", definitionB);
@@ -473,20 +482,6 @@ namespace Tests.SyncManager.FlowClockwork
         [Test]
         public void ThreeRowsSimpleRunAllNodesMustBeDisposed()
         {
-            var counterWrapper = new TestCounterWrapper();
-            var nodeRegistry = new NodeRegistry<string>();
-            var a = new TestActionProcess(p =>
-            {
-                if (p.Number < 3)
-                    p.Item = $"AAA{counterWrapper.Counter++}";
-                if (p.Number == 2)
-                    p.Stop();
-            });
-            var b = new TestActionProcess(p => { p.Item = p.Item += "BBB"; });
-            var c = new TestActionProcess(p => { p.Item = p.Item += "CCC"; });
-            nodeRegistry.Register("A", new BaseNode<string>(a, "A"));
-            nodeRegistry.Register("B", new BaseNode<string>(b, "B"));
-            nodeRegistry.Register("C", new BaseNode<string>(c, "C"));
             var definitionC = new NodeDefinition
             {
                 Name = "C",
@@ -509,6 +504,21 @@ namespace Tests.SyncManager.FlowClockwork
             {
                 Name = "A"
             };
+            var counterWrapper = new TestCounterWrapper();
+            var nodeRegistry = new NodeRegistry<string>();
+            var a = new TestActionProcess(p =>
+            {
+                if (p.Number < 3)
+                    p.Item = $"AAA{counterWrapper.Counter++}";
+                if (p.Number == 2)
+                    p.Stop();
+            });
+            var b = new TestActionProcess(p => { p.Item = p.Item += "BBB"; });
+            var c = new TestActionProcess(p => { p.Item = p.Item += "CCC"; });
+            nodeRegistry.Register("A", new BaseNode<string>(a, definitionA));
+            nodeRegistry.Register("B", new BaseNode<string>(b, definitionB));
+            nodeRegistry.Register("C", new BaseNode<string>(c, definitionC));
+
             var provider = new NodeDefinitionProvider("C");
             provider.Register("C", definitionC);
             provider.Register("B", definitionB);
@@ -528,27 +538,6 @@ namespace Tests.SyncManager.FlowClockwork
         [Test]
         public void ThreeRowsTheSecondSkip()
         {
-            var counterWrapper = new TestCounterWrapper();
-            var nodeRegistry = new NodeRegistry<string>();
-            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p =>
-            {
-                if (p.Number < 3)
-                {
-                    if (p.Item == null) p.Item = "";
-                    p.Item = p.Item + $"AAA{counterWrapper.Counter++}";
-                }
-                if (p.Number == 2)
-                    p.Stop();
-            }), "A"));
-            nodeRegistry.Register("B", new BaseNode<string>(new TestActionProcess(p =>
-            {
-                if (p.Number == 1)
-                    p.Skip();
-                else
-                    p.Item = p.Item += "BBB";
-            }), "B"));
-            nodeRegistry.Register("C",
-                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), "C"));
             var definitionC = new NodeDefinition
             {
                 Name = "C",
@@ -571,6 +560,28 @@ namespace Tests.SyncManager.FlowClockwork
             {
                 Name = "A"
             };
+            var counterWrapper = new TestCounterWrapper();
+            var nodeRegistry = new NodeRegistry<string>();
+            nodeRegistry.Register("A", new BaseNode<string>(new TestActionProcess(p =>
+            {
+                if (p.Number < 3)
+                {
+                    if (p.Item == null) p.Item = "";
+                    p.Item = p.Item + $"AAA{counterWrapper.Counter++}";
+                }
+                if (p.Number == 2)
+                    p.Stop();
+            }), definitionA));
+            nodeRegistry.Register("B", new BaseNode<string>(new TestActionProcess(p =>
+            {
+                if (p.Number == 1)
+                    p.Skip();
+                else
+                    p.Item = p.Item += "BBB";
+            }), definitionB));
+            nodeRegistry.Register("C",
+                new BaseNode<string>(new TestActionProcess(p => { p.Item = p.Item += "CCC"; }), definitionC));
+
             var provider = new NodeDefinitionProvider("C");
             provider.Register("C", definitionC);
             provider.Register("B", definitionB);

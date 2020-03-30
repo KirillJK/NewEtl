@@ -5,27 +5,27 @@ namespace SyncManager.FlowClockwork.ETL.Drivers
 {
     public class SourceWriterDataDriver:IDataDriver<SourceContext>
     {
-        private readonly IDestinationWriter _destinationWriter;
+        private readonly ISourceWriter _sourceWriter;
 
-        public SourceWriterDataDriver(IDestinationWriter destinationWriter)
+        public SourceWriterDataDriver(ISourceWriter sourceWriter)
         {
-            _destinationWriter = destinationWriter;
+            _sourceWriter = sourceWriter;
         }
 
 
         public void Dispose()
         {
-            _destinationWriter?.Dispose();
+            _sourceWriter?.Dispose();
         }
 
         public void Process(IDataItemWrapper<SourceContext> item)
         {
-            _destinationWriter.Write(item.Item);
+            _sourceWriter.Write(item.Item);
         }
 
         public void Commit()
         {
-            _destinationWriter?.Dispose();
+            _sourceWriter?.Dispose();
         }
     }
 }

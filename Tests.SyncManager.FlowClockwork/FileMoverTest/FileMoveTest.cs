@@ -13,6 +13,24 @@ namespace Tests.SyncManager.FlowClockwork.FileMoverTest
         [Ignore("Integration")]
         public void Run()
         {
+            var provider = new NodeDefinitionProvider("FileWriter");
+            provider.Register("FileReader", new NodeDefinition() { Name = "FileReader" });
+            provider.Register("FileWriter", new NodeDefinition()
+            {
+                Name = "FileWriter",
+                DependsOn = new List<string>()
+                {
+                    "ErrorWriter"
+                }
+            });
+            provider.Register("ErrorWriter", new NodeDefinition()
+            {
+                Name = "ErrorWriter",
+                DependsOn = new List<string>()
+                {
+                    "FileReader"
+                }
+            });
             var input = @"C:\Temp\My\1.txt";
             var output = @"C:\Temp\My\2.txt";
             var error = @"C:\Temp\My\errors.txt";
@@ -32,26 +50,11 @@ namespace Tests.SyncManager.FlowClockwork.FileMoverTest
                 }
             }
             var nodeRegistry = new NodeRegistry<FileMoverData>();
-            nodeRegistry.Register("FileReader", new BaseNode<FileMoverData>(new FileReader(input), "FileReader"));
-            nodeRegistry.Register("FileWriter", new BaseNode<FileMoverData>(new FileWriter(output), "FileWriter"));
-            nodeRegistry.Register("ErrorWriter", new BaseNode<FileMoverData>(new ErrorWriter(error), "ErrorWriter"));
+            nodeRegistry.Register("FileReader", new BaseNode<FileMoverData>(new FileReader(input), provider.GetByName("FileReader")));
+            nodeRegistry.Register("FileWriter", new BaseNode<FileMoverData>(new FileWriter(output), provider.GetByName("FileWriter")));
+            nodeRegistry.Register("ErrorWriter", new BaseNode<FileMoverData>(new ErrorWriter(error), provider.GetByName("ErrorWriter")));
 
-            var provider = new NodeDefinitionProvider("FileWriter");
-            provider.Register("FileReader", new NodeDefinition(){Name = "FileReader"});
-            provider.Register("FileWriter", new NodeDefinition(){
-                Name = "FileWriter" , DependsOn = new List<string>()
-            {
-                "ErrorWriter"
-            }
-            });
-            provider.Register("ErrorWriter", new NodeDefinition()
-            {
-                Name = "ErrorWriter",
-                DependsOn = new List<string>()
-                {
-                    "FileReader"
-                }
-            });
+
             var runner = new DataNodeRunner<FileMoverData>(provider, nodeRegistry);
             runner.Run();
             runner.Dispose();

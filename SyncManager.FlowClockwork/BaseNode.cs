@@ -6,12 +6,12 @@ namespace SyncManager.FlowClockwork
     {
         private IDataDriver<TDataItem> _driver;
         private NodeState<TDataItem> _state = new NodeState<TDataItem>();
-        private string _nodeName;
+        private NodeDefinition _nodeDefinition;
 
-        public BaseNode(IDataDriver<TDataItem> driver, string nodeName)
+        public BaseNode(IDataDriver<TDataItem> driver, NodeDefinition nodeDefinition)
         {
             _driver = driver;
-            _nodeName = nodeName;
+            _nodeDefinition = nodeDefinition;
         }
 
         public bool Process(IDataItemWrapper<TDataItem> wrapper)
@@ -19,7 +19,14 @@ namespace SyncManager.FlowClockwork
             
             if (!_state.NeedToContinue(wrapper)) return false;
             Exception exception;
-            if (!TrySafeExecute(() => _driver.Process(wrapper), out exception))
+            if (!TrySafeExecute(() =>
+            {
+                _driver.Process(wrapper);
+                if (_nodeDefinition.SingleCall)
+                {
+                    wrapper.Exclude();
+                }
+            }, out exception))
             {
                 WrapException(wrapper, exception);
             }
@@ -38,12 +45,12 @@ namespace SyncManager.FlowClockwork
 
         private void WrapException(IDataItemWrapper<TDataItem> wrapper, Exception exception)
         {
-            wrapper.SetException(exception, _nodeName);
+            wrapper.SetException(exception, _nodeDefinition.Name);
         }
 
         private void WrapCommitException(IDataItemWrapper<TDataItem> wrapper, Exception exception)
         {
-            wrapper.SetCommitException(exception, _nodeName);
+            wrapper.SetCommitException(exception, _nodeDefinition.Name);
         }
 
         bool TrySafeExecute(Action action, out Exception exception)

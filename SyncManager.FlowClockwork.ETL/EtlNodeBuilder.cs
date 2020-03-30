@@ -48,7 +48,7 @@ namespace SyncManager.FlowClockwork.ETL
         {
             var nodeDefinition = Attach(new NodeDefinition() { Name = name });
             _nodeDefinitionProvider.Register(name, nodeDefinition);
-            _nodeRegistry.Register(name, new BaseNode<SourceContext>(dataDriver, name));
+            _nodeRegistry.Register(name, new BaseNode<SourceContext>(dataDriver, _nodeDefinitionProvider.GetByName(name)));
         }
 
         public IEtlNodeBuilder AddCleanup(List<CleanupRule> rules)

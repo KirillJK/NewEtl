@@ -45,7 +45,7 @@
     <Compile Include="CsvParser.cs" />
     <Compile Include="CsvReader.cs" />
     <Compile Include="SourceWriter.cs" />
-    <Compile Include="IDestinationWriter.cs" />
+    <Compile Include="ISourceWriter.cs" />
     <Compile Include="ISourceReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

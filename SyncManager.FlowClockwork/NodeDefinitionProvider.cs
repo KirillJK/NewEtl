@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SyncManager.FlowClockwork
 {
@@ -25,6 +26,15 @@ namespace SyncManager.FlowClockwork
         public void SetRoot(string rootName)
         {
             _rootName = rootName;
+        }
+
+        public void Register(string name, params string[] dependsOn)
+        {
+            _definitions[name] = new NodeDefinition()
+            {
+                Name = name,
+                DependsOn = dependsOn.ToList()
+            };
         }
 
         public void Register(string name, NodeDefinition definition)

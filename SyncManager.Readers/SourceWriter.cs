@@ -3,7 +3,7 @@ using SyncManager.Etl.Common;
 
 namespace SyncManager.Readers
 {
-    public class SourceWriter: IDestinationWriter
+    public class SourceWriter: ISourceWriter
     {
         private StreamWriter _sw;
         private string _path;
