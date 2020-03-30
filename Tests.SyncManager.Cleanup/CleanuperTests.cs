@@ -1767,6 +1767,38 @@ namespace Tests.SyncManager.NewSteps
         }
 
         [Test]
+        public void GetPreviousWhenAllPreviousAreEmpty()
+        {
+            var expressionEvaluator = GetMocked();
+            Cleanuper cleanuper = new Cleanuper(new List<CleanupRule>()
+            {
+                new CleanupRule(){Action = CleanupAction.GetPrevious, ColumnName = "Col3", IsEnabled = true, Condition = CleanupCondition.Empty, ConditionArgument = "", Expression =  ""}
+            }, expressionEvaluator);
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
+            var header = "Col1,Col2,Col3";
+            var row1 = "1,2,";
+            var row2 = "4,5,";
+            var row3 = "7,8,";
+            var headerList = CsvParser.GetParts(header);
+            list.Add(CsvParser.Parse(row1, headerList));
+            list.Add(CsvParser.Parse(row2, headerList));
+            list.Add(CsvParser.Parse(row3, headerList));
+
+            var rows = list.Select(a => new SourceContext() { Source = a }).ToList();
+            foreach (var row in rows)
+            {
+                cleanuper.Cleanup(row);
+            }
+
+
+            Assert.AreEqual(row1, CsvParser.ToCsv(rows[0].Source));
+            Assert.AreEqual(row2, CsvParser.ToCsv(rows[1].Source));
+            Assert.AreEqual(row3, CsvParser.ToCsv(rows[2].Source));
+        }
+
+
+
+        [Test]
         public void ExpressionPlusGetPrevious()
         {
             var expressionEvaluator = GetMocked();
