@@ -23,6 +23,11 @@ namespace SyncManager.FlowClockwork
 
         }
 
+        public NodeDefinitionProvider GetSubTree(string rootName)
+        {
+            return new NodeDefinitionProvider(_definitions, rootName);
+        }
+
         public void SetRoot(string rootName)
         {
             _rootName = rootName;

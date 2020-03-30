@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using SyncManager.FlowClockwork;
 
 namespace Tests.SyncManager.FlowClockwork.Loopback
@@ -21,6 +24,7 @@ namespace Tests.SyncManager.FlowClockwork.Loopback
         public void Process(IDataItemWrapper<string> item)
         {
             _messages.Add($"Data{_counter++}");
+            Trace.WriteLine(_messages.Last());
             if (_counter == 3)
             {
                 item.Stop();
@@ -48,6 +52,7 @@ namespace Tests.SyncManager.FlowClockwork.Loopback
         public void Process(IDataItemWrapper<string> item)
         {
             _messages.Add("FirstCall");
+            Trace.WriteLine(_messages.Last());
         }
 
         public void Commit()
@@ -73,6 +78,7 @@ namespace Tests.SyncManager.FlowClockwork.Loopback
         public void Process(IDataItemWrapper<string> item)
         {
             _messages.Add("LastCall");
+            Trace.WriteLine(_messages.Last());
         }
 
         public void Commit()
