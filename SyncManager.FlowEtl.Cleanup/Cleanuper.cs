@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using SyncManager.Etl.Common;
+using SyncManager.FlowEtl.Common;
 
-namespace SyncManager.Etl.Cleanup
+namespace SyncManager.FlowEtl.Cleanup
 {
     public class Cleanuper : ICleanuper
     {
@@ -148,7 +148,7 @@ namespace SyncManager.Etl.Cleanup
                         if (string.IsNullOrEmpty(stringValue))
                         {
                             sourceContext.Source[rule.ColumnName] = evaluation.Value;
-                            }
+                        }
                         else
                         {
                             sourceContext.Source[rule.ColumnName] = stringValue.Replace(_matched[rule.ColumnName], evaluation.Value);
@@ -176,7 +176,7 @@ namespace SyncManager.Etl.Cleanup
                     _frameState.StopLoad();
                 }
                     break;
-                }
+            }
         }
 
 
@@ -189,7 +189,7 @@ namespace SyncManager.Etl.Cleanup
                 case CleanupCondition.Empty:
                 {
                     _matched[rule.ColumnName] = evaluation.Value;
-                        return capturedValue == null || capturedValue as string == "";
+                    return capturedValue == null || capturedValue as string == "";
                 }
                 case CleanupCondition.StartsWith:
                 {
@@ -204,15 +204,15 @@ namespace SyncManager.Etl.Cleanup
                 case CleanupCondition.Equal:
                 {
                     _matched[rule.ColumnName] = rule.ConditionArgument;
-                        return stringValue == rule.ConditionArgument;
+                    return stringValue == rule.ConditionArgument;
                 }
                 case CleanupCondition.Regex:
                 {
                     var matched = Regex.Match(stringValue, rule.ConditionArgument);
                     if (matched.Length > 0)
                     {
-                         _matched[rule.ColumnName] = matched.Value;
-                         return true;
+                        _matched[rule.ColumnName] = matched.Value;
+                        return true;
                     }
 
                     return false;
@@ -220,38 +220,38 @@ namespace SyncManager.Etl.Cleanup
                 case CleanupCondition.Contains:
                 {
                     _matched[rule.ColumnName] = rule.ConditionArgument;
-                        return stringValue.Contains(rule.ConditionArgument);
+                    return stringValue.Contains(rule.ConditionArgument);
                 }
                 case CleanupCondition.Expression:
                 {
                     _matched[rule.ColumnName] = stringValue;
                     return (bool)_expressionEvaluator.Evaluate(rule.ConditionArgument);
-                    }
+                }
                 default:
                     return false;
             }
         }
     }
-}
 
-public class EvaluatedValue
-{
-    private Lazy<string> _lazyGetter;
-    private string _value;
-    public EvaluatedValue(Lazy<string> lazyGetter)
+    public class EvaluatedValue
     {
-        _lazyGetter = lazyGetter;
-    }
-
-    public string Value
-    {
-        get
+        private Lazy<string> _lazyGetter;
+        private string _value;
+        public EvaluatedValue(Lazy<string> lazyGetter)
         {
-            if (string.IsNullOrEmpty(_value))
+            _lazyGetter = lazyGetter;
+        }
+
+        public string Value
+        {
+            get
             {
-                _value = _lazyGetter.Value;
+                if (string.IsNullOrEmpty(_value))
+                {
+                    _value = _lazyGetter.Value;
+                }
+                return _value;
             }
-            return _value;
         }
     }
 }

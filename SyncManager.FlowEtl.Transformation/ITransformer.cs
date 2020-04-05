@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using SyncManager.Etl.Common;
-using SyncManager.Etl.Transformation.Models;
+using SyncManager.FlowEtl.Common;
+using SyncManager.FlowEtl.Transformation.Models;
 
-namespace SyncManager.Etl.Transformation
+namespace SyncManager.FlowEtl.Transformation
 {
     public interface ITransformer
     {
         void Transform(SourceContext sourceContext);
     }
 
-    public class Transformer: ITransformer
+    public class Transformer : ITransformer
     {
-        private List<TransformationMap> _transformationMaps;
-        private IExpressionEvaluator _expressionEvaluator;
+        private readonly IExpressionEvaluator _expressionEvaluator;
+        private readonly List<TransformationMap> _transformationMaps;
 
         public Transformer(List<TransformationMap> transformationMaps, IExpressionEvaluator expressionEvaluator)
         {
@@ -24,9 +24,7 @@ namespace SyncManager.Etl.Transformation
         public void Transform(SourceContext sourceContext)
         {
             foreach (var transformationMap in _transformationMaps)
-            {
-                SafeRun(()=>Transform(sourceContext, transformationMap), sourceContext, transformationMap);
-            }
+                SafeRun(() => Transform(sourceContext, transformationMap), sourceContext, transformationMap);
         }
 
         private void SetEmptyOutput(SourceContext context, TransformationMap map)
@@ -41,24 +39,19 @@ namespace SyncManager.Etl.Transformation
                 if (!sourceContext.Source.ContainsKey(transformationMap.KeyExpression))
                 {
                     SetEmptyOutput(sourceContext, transformationMap);
-                    sourceContext.AddErrorForDestinationColumn(transformationMap.Output, $"Source key {transformationMap.KeyExpression} is missed", SourceContext.ErrorTypeTransformation);
+                    sourceContext.AddErrorForDestinationColumn(transformationMap.Output,
+                        $"Source key {transformationMap.KeyExpression} is missed",
+                        SourceContext.ErrorTypeTransformation);
                 }
                 else
                 {
-                    if (transformationMap.TransformOnlyIfColumnExists && sourceContext.ListOfSchemaMissedColumns.Contains(transformationMap.KeyExpression))
-                    {
+                    if (transformationMap.TransformOnlyIfColumnExists &&
+                        sourceContext.ListOfSchemaMissedColumns.Contains(transformationMap.KeyExpression))
                         sourceContext.Destination.Remove(transformationMap.Output);
-                    }
                     else
-                    {
                         sourceContext.Destination[transformationMap.Output] =
                             sourceContext.Source[transformationMap.KeyExpression];
-                    }
-
                 }
-
-             
-        
             }
             else if (transformationMap.MappingType == MappingType.Expression)
             {
@@ -67,7 +60,6 @@ namespace SyncManager.Etl.Transformation
             }
             else if (transformationMap.MappingType == MappingType.DataMapping)
             {
-
             }
         }
 

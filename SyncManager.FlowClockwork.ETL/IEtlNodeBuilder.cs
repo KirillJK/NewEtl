@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using SyncManager.Etl.Cleanup;
-using SyncManager.Etl.Common;
-using SyncManager.Etl.Filtering;
-using SyncManager.Etl.Schema;
-using SyncManager.Etl.Transformation.Models;
+using SyncManager.FlowEtl.Cleanup;
+using SyncManager.FlowEtl.Common;
+using SyncManager.FlowEtl.Filtering;
+using SyncManager.FlowEtl.Schema;
+using SyncManager.FlowEtl.Transformation.Models;
 
 namespace SyncManager.FlowClockwork.ETL
 {

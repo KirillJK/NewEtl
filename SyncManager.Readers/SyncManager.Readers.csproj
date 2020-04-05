@@ -50,9 +50,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SyncManager.Etl.Common\SyncManager.Etl.Common.csproj">
+    <ProjectReference Include="..\SyncManager.FlowEtl.Common\SyncManager.FlowEtl.Common.csproj">
       <Project>{90B83C35-E418-4F6C-9767-368087B1ED9B}</Project>
-      <Name>SyncManager.Etl.Common</Name>
+      <Name>SyncManager.FlowEtl.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

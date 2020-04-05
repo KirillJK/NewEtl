@@ -1,4 +1,4 @@
-﻿namespace SyncManager.Etl.Transformation.Models
+﻿namespace SyncManager.FlowEtl.Transformation.Models
 {
     public enum MappingType
     {

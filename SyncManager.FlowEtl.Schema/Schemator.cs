@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Dynamitey;
 using ImpromptuInterface;
-using SyncManager.Etl.Common;
+using SyncManager.FlowEtl.Common;
 using ValueType = SyncManager.Common.ValueType;
 
-namespace SyncManager.Etl.Schema
+namespace SyncManager.FlowEtl.Schema
 {
     public interface ISchemator
     {

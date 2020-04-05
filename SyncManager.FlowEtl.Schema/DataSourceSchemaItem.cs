@@ -1,7 +1,6 @@
-﻿using System;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
-namespace SyncManager.Etl.Schema
+namespace SyncManager.FlowEtl.Schema
 {
     public class DataSourceSchemaItem
     {

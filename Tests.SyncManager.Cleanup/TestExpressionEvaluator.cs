@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using SyncManager.Etl.Common;
+using SyncManager.FlowEtl.Common;
 
 namespace Tests.SyncManager.NewSteps
 {

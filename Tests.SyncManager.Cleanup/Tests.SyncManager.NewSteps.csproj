@@ -61,25 +61,25 @@
       <Project>{345c363b-2c75-46e4-9b83-1cb84d5d1160}</Project>
       <Name>SyncManager.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SyncManager.Etl.Cleanup\SyncManager.Etl.Cleanup.csproj">
+    <ProjectReference Include="..\SyncManager.FlowEtl.Cleanup\SyncManager.FlowEtl.Cleanup.csproj">
       <Project>{6112BC77-DCF5-49BC-8990-062C30C22EAB}</Project>
-      <Name>SyncManager.Etl.Cleanup</Name>
+      <Name>SyncManager.FlowEtl.Cleanup</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SyncManager.Etl.Common\SyncManager.Etl.Common.csproj">
+    <ProjectReference Include="..\SyncManager.FlowEtl.Common\SyncManager.FlowEtl.Common.csproj">
       <Project>{90B83C35-E418-4F6C-9767-368087B1ED9B}</Project>
-      <Name>SyncManager.Etl.Common</Name>
+      <Name>SyncManager.FlowEtl.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SyncManager.Etl.Filtering\SyncManager.Etl.Filtering.csproj">
+    <ProjectReference Include="..\SyncManager.FlowEtl.Filtering\SyncManager.FlowEtl.Filtering.csproj">
       <Project>{83bbcf3c-861a-4ada-a9c5-fcf411bfab3c}</Project>
-      <Name>SyncManager.Etl.Filtering</Name>
+      <Name>SyncManager.FlowEtl.Filtering</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SyncManager.Etl.Schema\SyncManager.Etl.Schema.csproj">
+    <ProjectReference Include="..\SyncManager.FlowEtl.Schema\SyncManager.FlowEtl.Schema.csproj">
       <Project>{97D63D46-79F7-4AAB-8EA7-48E83854B597}</Project>
-      <Name>SyncManager.Etl.Schema</Name>
+      <Name>SyncManager.FlowEtl.Schema</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SyncManager.Etl.Transformation\SyncManager.Etl.Transformation.csproj">
+    <ProjectReference Include="..\SyncManager.FlowEtl.Transformation\SyncManager.FlowEtl.Transformation.csproj">
       <Project>{4D89410B-2A0D-4C4F-AA1C-1027B9DED68E}</Project>
-      <Name>SyncManager.Etl.Transformation</Name>
+      <Name>SyncManager.FlowEtl.Transformation</Name>
     </ProjectReference>
     <ProjectReference Include="..\SyncManager.FlowClockwork.ETL\SyncManager.FlowClockwork.ETL.csproj">
       <Project>{DE0CEB83-7EA2-4842-AFB5-5A54B9B6124F}</Project>

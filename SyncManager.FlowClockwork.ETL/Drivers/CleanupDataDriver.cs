@@ -1,5 +1,5 @@
-﻿using SyncManager.Etl.Cleanup;
-using SyncManager.Etl.Common;
+﻿using SyncManager.FlowEtl.Cleanup;
+using SyncManager.FlowEtl.Common;
 
 namespace SyncManager.FlowClockwork.ETL.Drivers
 {

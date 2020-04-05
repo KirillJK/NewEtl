@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SyncManager.Etl.Common
+namespace SyncManager.FlowEtl.Common
 {
     public interface IExpressionEvaluator
     {

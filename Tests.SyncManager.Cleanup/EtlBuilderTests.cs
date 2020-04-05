@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
-using SyncManager.Etl.Cleanup;
-using SyncManager.Etl.Common;
-using SyncManager.Etl.Filtering;
-using SyncManager.Etl.Schema;
 using SyncManager.FlowClockwork;
 using SyncManager.FlowClockwork.ETL;
+using SyncManager.FlowEtl.Cleanup;
+using SyncManager.FlowEtl.Schema;
 using ValueType = SyncManager.Common.ValueType;
 
 namespace Tests.SyncManager.NewSteps

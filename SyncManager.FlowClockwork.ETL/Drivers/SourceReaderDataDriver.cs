@@ -1,4 +1,4 @@
-﻿using SyncManager.Etl.Common;
+﻿using SyncManager.FlowEtl.Common;
 using SyncManager.Readers;
 
 namespace SyncManager.FlowClockwork.ETL.Drivers

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using SyncManager.Etl.Common;
-using SyncManager.Etl.Filtering;
+using SyncManager.FlowEtl.Common;
+using SyncManager.FlowEtl.Filtering;
 
 namespace Tests.SyncManager.NewSteps
 {

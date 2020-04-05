@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SyncManager.Etl.Common
+namespace SyncManager.FlowEtl.Common
 {
     public class SourceContext
     {

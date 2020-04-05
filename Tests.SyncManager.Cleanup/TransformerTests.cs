@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using SyncManager.Etl.Common;
-using SyncManager.Etl.Transformation;
-using SyncManager.Etl.Transformation.Models;
+using SyncManager.FlowEtl.Common;
+using SyncManager.FlowEtl.Transformation;
+using SyncManager.FlowEtl.Transformation.Models;
 
 namespace Tests.SyncManager.NewSteps
 {

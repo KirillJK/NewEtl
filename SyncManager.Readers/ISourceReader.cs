@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
-using SyncManager.Etl.Common;
+using SyncManager.FlowEtl.Common;
 
 namespace SyncManager.Readers
 {

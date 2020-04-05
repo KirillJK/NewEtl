@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SyncManager.Etl.Transformation.Models
+namespace SyncManager.FlowEtl.Transformation.Models
 {
     public class DataMapping
     {

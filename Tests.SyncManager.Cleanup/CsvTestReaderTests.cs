@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using NUnit.Framework;
-using SyncManager.Etl.Common;
+using SyncManager.FlowEtl.Common;
 using SyncManager.Readers;
 
 namespace Tests.SyncManager.NewSteps

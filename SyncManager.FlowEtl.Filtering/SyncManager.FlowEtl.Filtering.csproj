@@ -7,8 +7,8 @@
     <ProjectGuid>{83BBCF3C-861A-4ADA-A9C5-FCF411BFAB3C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SyncManager.Etl.Filtering</RootNamespace>
-    <AssemblyName>SyncManager.Etl.Filtering</AssemblyName>
+    <RootNamespace>SyncManager.FlowEtl.Filtering</RootNamespace>
+    <AssemblyName>SyncManager.FlowEtl.Filtering</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -47,9 +47,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SyncManager.Etl.Common\SyncManager.Etl.Common.csproj">
+    <ProjectReference Include="..\SyncManager.FlowEtl.Common\SyncManager.FlowEtl.Common.csproj">
       <Project>{90B83C35-E418-4F6C-9767-368087B1ED9B}</Project>
-      <Name>SyncManager.Etl.Common</Name>
+      <Name>SyncManager.FlowEtl.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using SyncManager.Etl.Common;
+using SyncManager.FlowEtl.Common;
 
 namespace SyncManager.Readers
 {

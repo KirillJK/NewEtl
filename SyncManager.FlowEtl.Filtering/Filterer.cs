@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SyncManager.Etl.Common;
+using SyncManager.FlowEtl.Common;
 
-namespace SyncManager.Etl.Filtering
+namespace SyncManager.FlowEtl.Filtering
 {
     public interface IFilterer
     {

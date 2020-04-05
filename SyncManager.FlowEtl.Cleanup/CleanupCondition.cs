@@ -1,4 +1,4 @@
-﻿namespace SyncManager.Etl.Cleanup
+﻿namespace SyncManager.FlowEtl.Cleanup
 {
     public enum CleanupCondition
     {

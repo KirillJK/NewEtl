@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using SyncManager.Etl.Cleanup;
-using SyncManager.Etl.Common;
-using SyncManager.Etl.Filtering;
-using SyncManager.Etl.Schema;
-using SyncManager.Etl.Transformation;
-using SyncManager.Etl.Transformation.Models;
 using SyncManager.FlowClockwork.ETL.Drivers;
+using SyncManager.FlowEtl.Cleanup;
+using SyncManager.FlowEtl.Common;
+using SyncManager.FlowEtl.Filtering;
+using SyncManager.FlowEtl.Schema;
+using SyncManager.FlowEtl.Transformation;
+using SyncManager.FlowEtl.Transformation.Models;
 using SyncManager.Readers;
 
 namespace SyncManager.FlowClockwork.ETL

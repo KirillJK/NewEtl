@@ -7,23 +7,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.FlowClockwork",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.SyncManager.FlowClockwork", "Tests.SyncManager.FlowClockwork\Tests.SyncManager.FlowClockwork.csproj", "{7D05A8EF-DB04-4858-A77A-914925A43CFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.Etl.Common", "SyncManager.Etl.Common\SyncManager.Etl.Common.csproj", "{90B83C35-E418-4F6C-9767-368087B1ED9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.FlowEtl.Common", "SyncManager.FlowEtl.Common\SyncManager.FlowEtl.Common.csproj", "{90B83C35-E418-4F6C-9767-368087B1ED9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.Etl.Cleanup", "SyncManager.Etl.Cleanup\SyncManager.Etl.Cleanup.csproj", "{6112BC77-DCF5-49BC-8990-062C30C22EAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.FlowEtl.Cleanup", "SyncManager.FlowEtl.Cleanup\SyncManager.FlowEtl.Cleanup.csproj", "{6112BC77-DCF5-49BC-8990-062C30C22EAB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.FlowClockwork.Common", "SyncManager.FlowClockwork.Common\SyncManager.FlowClockwork.Common.csproj", "{FD1C81F9-3730-4C23-A96B-3A9B0D06B9A7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.SyncManager.NewSteps", "Tests.SyncManager.Cleanup\Tests.SyncManager.NewSteps.csproj", "{F69B3520-81A8-4B4A-8415-171D08332BBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.Etl.Filtering", "SyncManager.Etl.Filtering\SyncManager.Etl.Filtering.csproj", "{83BBCF3C-861A-4ADA-A9C5-FCF411BFAB3C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.FlowEtl.Filtering", "SyncManager.FlowEtl.Filtering\SyncManager.FlowEtl.Filtering.csproj", "{83BBCF3C-861A-4ADA-A9C5-FCF411BFAB3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.Etl.Schema", "SyncManager.Etl.Schema\SyncManager.Etl.Schema.csproj", "{97D63D46-79F7-4AAB-8EA7-48E83854B597}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.FlowEtl.Schema", "SyncManager.FlowEtl.Schema\SyncManager.FlowEtl.Schema.csproj", "{97D63D46-79F7-4AAB-8EA7-48E83854B597}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.Common", "SyncManager.Common\SyncManager.Common.csproj", "{345C363B-2C75-46E4-9B83-1CB84D5D1160}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.Readers", "SyncManager.Readers\SyncManager.Readers.csproj", "{172D9817-ABF7-4F89-9329-415D9D681DCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.Etl.Transformation", "SyncManager.Etl.Transformation\SyncManager.Etl.Transformation.csproj", "{4D89410B-2A0D-4C4F-AA1C-1027B9DED68E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.FlowEtl.Transformation", "SyncManager.FlowEtl.Transformation\SyncManager.FlowEtl.Transformation.csproj", "{4D89410B-2A0D-4C4F-AA1C-1027B9DED68E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncManager.FlowClockwork.ETL", "SyncManager.FlowClockwork.ETL\SyncManager.FlowClockwork.ETL.csproj", "{DE0CEB83-7EA2-4842-AFB5-5A54B9B6124F}"
 EndProject
